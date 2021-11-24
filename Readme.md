@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
 * Студент: [Pavel Iugai](https://up.htmlacademy.ru/ecmascript/16/user/1462123).
-* Наставник: `Неизвестно`.
+* Наставник: [Антон Попов](https://htmlacademy.ru/profile/id78239).
 
 ---
 
