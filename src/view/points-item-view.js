@@ -50,7 +50,6 @@ const formatDateDiff = (dateFrom, dateTo) => {
 };
 
 export const createPointsItemTemplate = (point) => {
-  const typeIcon = String(point.type).toLowerCase();
   const dateFrom = dayjs(point.dateFrom).format(DATE_FORMAT);
   const dateFromInViewFormat = dayjs(point.dateFrom).format(DATE_VIEW_FORMAT);
   const timeFrom = dayjs(point.dateFrom).format(TIME_FORMAT);
@@ -67,7 +66,7 @@ export const createPointsItemTemplate = (point) => {
       <div class='event'>
         <time class="event__date" datetime="${dateFrom}">${dateFromInViewFormat}</time>
         <div class='event__type'>
-          <img class="event__type-icon" width="42" height="42" src="img/icons/${typeIcon}.png" alt="Event type icon">
+          <img class="event__type-icon" width="42" height="42" src="img/icons/${point.type}.png" alt="">
         </div>
         <h3 class="event__title">${point.type} ${point.destination}</h3>
         <div class='event__schedule'>
