@@ -7,11 +7,11 @@ import { createPointsItemTemplate } from './view/points-item-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
 import { generatePoint } from './mocks/point.js';
 
-const POINTS_COUNT = 15
+const POINTS_COUNT = 15;
 
 const points = Array(POINTS_COUNT)
   .fill(null)
-  .map((_, index) => generatePoint(index + 1));;
+  .map((_, index) => generatePoint(index + 1));
 
 const tripControlsElement = document.querySelector('.trip-controls');
 const tripControlsNavigationElement = tripControlsElement.querySelector('.trip-controls__navigation');
