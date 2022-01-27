@@ -5,7 +5,7 @@ import { createPointsListTemplate } from './view/points-list-view.js';
 import { createPointEditTemplate } from './view/point-edit-view.js';
 import { createPointsItemTemplate } from './view/points-item-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
-import { generatePoint } from "./mocks/point.js";
+import { generatePoint } from './mocks/point.js';
 
 const POINTS_COUNT = 15
 
@@ -29,7 +29,11 @@ renderTemplate( tripEventsElement, createPointsListTemplate(), RenderPosition.BE
 
 const tripEventsListElement = tripEventsElement.querySelector('.trip-events__list');
 
-renderTemplate( tripEventsListElement, createPointEditTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(
+  tripEventsListElement,
+  createPointEditTemplate(points[0]),
+  RenderPosition.BEFOREEND
+);
 
 for (let i = 1; i < POINTS_COUNT; i++) {
   renderTemplate( tripEventsListElement, createPointsItemTemplate(points[i]), RenderPosition.BEFOREEND);
