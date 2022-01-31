@@ -6,9 +6,9 @@ const MessageTypes = {
 };
 
 const createEmptyPointsListMessageTemplate = (messageType) =>
-  `<p class='trip-events__msg'>${messageType}</p>`;
+  `<p class="trip-events__msg">${messageType}</p>`;
 
-export class EmptyPointsListMessage {
+export class EmptyPointsListMessageView {
   #element = null;
   #messageType = null;
 

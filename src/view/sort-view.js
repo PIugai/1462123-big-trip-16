@@ -28,7 +28,7 @@ export const createSortTemplate = () =>
     </div>
   </form>`;
 
-export class Sort {
+export class SortView {
   #element = null;
 
   get element() {

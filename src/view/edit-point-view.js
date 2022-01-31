@@ -146,7 +146,7 @@ const createEditPointTemplate = (point = {}) => {
   `;
 };
 
-export class EditPoint {
+export class EditPointView {
   #element = null;
   #point = null;
 

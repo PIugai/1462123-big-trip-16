@@ -1,13 +1,13 @@
-import { EditPoint } from './view/edit-point.js';
-import { EmptyPointsListMessage } from './view/empty-points-list-message.js';
-import { Filters } from './view/filters.js';
+import { EditPointView } from './view/edit-point-view.js';
+import { EmptyPointsListMessageView } from './view/empty-points-list-message-view.js';
+import { FiltersView } from './view/filters-view.js';
 import { generatePoint } from './mocks/point.js';
-import { SiteMenu } from './view/site-menu.js';
-import { PointsList } from './view/points-list.js';
-import { PointsListItem } from './view/points-list-item.js';
-import { Point } from './view/point.js';
+import { SiteMenuView } from './view/site-menu-view.js';
+import { PointsListView } from './view/points-list-view.js';
+import { PointsListItemView } from './view/points-list-item-view.js';
+import { PointView } from './view/point-view.js';
 import { renderElement } from './render.js';
-import { Sort } from './view/sort.js';
+import { SortView } from './view/sort-view.js';
 
 const POINTS_COUNT = 15;
 
@@ -25,14 +25,14 @@ const tripControlsFiltersElement = headerElement.querySelector(
 const mainElement = document.querySelector('.page-main');
 const tripEventsElement = mainElement.querySelector('.trip-events');
 
-renderElement(tripControlsNavigationElement, new SiteMenu().element);
-renderElement(tripControlsFiltersElement, new Filters().element);
+renderElement(tripControlsNavigationElement, new SiteMenuView().element);
+renderElement(tripControlsFiltersElement, new FiltersView().element);
 
 const renderPoint = (pointsList, pointItem) => {
-  const point = new Point(pointItem);
-  const pointListItem = new PointsListItem(point.template);
-  const editPoint = new EditPoint(pointItem);
-  const pointEditListItem = new PointsListItem(editPoint.template);
+  const point = new PointView(pointItem);
+  const pointListItem = new PointsListItemView(point.template);
+  const editPoint = new EditPointView(pointItem);
+  const pointEditListItem = new PointsListItemView(editPoint.template);
   const replacePointToForm = () => {
     pointsList.replaceChild(pointEditListItem.element, pointListItem.element);
   };
@@ -85,10 +85,10 @@ const renderPoint = (pointsList, pointItem) => {
 };
 
 if (!points.length) {
-  renderElement(tripEventsElement, new EmptyPointsListMessage().element);
+  renderElement(tripEventsElement, new EmptyPointsListMessageView().element);
 } else {
-  renderElement(tripEventsElement, new Sort().element);
-  renderElement(tripEventsElement, new PointsList().element);
+  renderElement(tripEventsElement, new SortView().element);
+  renderElement(tripEventsElement, new PointsListView().element);
   const eventsListElement =
     tripEventsElement.querySelector('.trip-events__list');
   for (const point of points) {
