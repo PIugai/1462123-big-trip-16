@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import { createElement } from '../render.js';
+
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATE_VIEW_FORMAT = 'MMM D';
 const TIME_FORMAT = 'HH:mm';
@@ -49,7 +51,7 @@ const formatDateDiff = (dateFrom, dateTo) => {
   }
 };
 
-export const createPointsItemTemplate = (point) => {
+const createPointTemplate = (point) => {
   const dateFrom = dayjs(point.dateFrom).format(DATE_FORMAT);
   const dateFromInViewFormat = dayjs(point.dateFrom).format(DATE_VIEW_FORMAT);
   const timeFrom = dayjs(point.dateFrom).format(TIME_FORMAT);
@@ -62,7 +64,6 @@ export const createPointsItemTemplate = (point) => {
     : '';
 
   return `
-    <li class='trip-events__item'>
       <div class='event'>
         <time class="event__date" datetime="${dateFrom}">${dateFromInViewFormat}</time>
         <div class='event__type'>
@@ -103,6 +104,29 @@ export const createPointsItemTemplate = (point) => {
         <button class='event__rollup-btn' type='button'>
           <span class='visually-hidden'>Open event</span>
         </button>
-      </div>
-    </li>`;
+      </div>`;
 };
+
+export class Point {
+  #element = null;
+  #point = null;
+
+  constructor(point) {
+    this.#point = point;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+    return this.#element;
+  }
+
+  get template() {
+    return createPointTemplate(this.#point);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

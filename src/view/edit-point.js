@@ -1,5 +1,6 @@
-import {types, cities} from '../mocks/point.js';
+import { createElement } from '../render.js';
 import dayjs from 'dayjs';
+import { types, cities } from '../mocks/point.js';
 
 const DATE_TIME_FORMAT = 'YYYY/MM/DD HH:mm';
 
@@ -78,9 +79,10 @@ const createEditPointActionsTemplate = () => (
   </button>`
 );
 
-const createActionsTemplate = (id) => id ? createEditPointActionsTemplate() : createAddPointActionsTemplate();
+const createActionsTemplate = (id) =>
+  id ? createEditPointActionsTemplate() : createAddPointActionsTemplate();
 
-export const createPointEditTemplate = (point = {}) => {
+const createEditPointTemplate = (point = {}) => {
   const {
     id = 0,
     type = 'taxi',
@@ -92,55 +94,78 @@ export const createPointEditTemplate = (point = {}) => {
     dateTo = dayjs().format(DATE_TIME_FORMAT),
   } = point;
   return `
-    <li class='trip-events__item'>
-      <form class='event event--edit' action='#' method='post'>
-        <header class='event__header'>
-          <div class='event__type-wrapper'>
-            <label class='event__type  event__type-btn' for='event-type-toggle-${id}'>
-              <span class='visually-hidden'>Choose event type</span>
-              <img class='event__type-icon' width='17' height='17' src='img/icons/${type}.png' alt='Event type icon'>
-            </label>
-            <input class='event__type-toggle  visually-hidden' id='event-type-toggle-${id}' type='checkbox'>
+    <form class='event event--edit' action='#' method='post'>
+      <header class='event__header'>
+        <div class='event__type-wrapper'>
+          <label class='event__type  event__type-btn' for='event-type-toggle-${id}'>
+            <span class='visually-hidden'>Choose event type</span>
+            <img class='event__type-icon' width='17' height='17' src='img/icons/${type}.png' alt='Event type icon'>
+          </label>
+          <input class='event__type-toggle  visually-hidden' id='event-type-toggle-${id}' type='checkbox'>
 
-            <div class='event__type-list'>
-              <fieldset class='event__type-group'>
-                <legend class='visually-hidden'>Event type</legend>
-                ${createTypesTemplate(id, type)}
-              </fieldset>
-            </div>
+          <div class='event__type-list'>
+            <fieldset class='event__type-group'>
+              <legend class='visually-hidden'>Event type</legend>
+              ${createTypesTemplate(id, type)}
+            </fieldset>
           </div>
+        </div>
 
-          <div class='event__field-group  event__field-group--destination'>
-            <label class='event__label  event__type-output' for='event-destination-${id}'>
-              ${type}
-            </label>
-            <input class='event__input  event__input--destination' id='event-destination-${id}' type='text' name='event-destination' value='${destination}' list='destination-list-${id}'>
-            <datalist id='destination-list-${id}'>
-              ${createCitiesTemplate()}
-          </div>
+        <div class='event__field-group  event__field-group--destination'>
+          <label class='event__label  event__type-output' for='event-destination-${id}'>
+            ${type}
+          </label>
+          <input class='event__input  event__input--destination' id='event-destination-${id}' type='text' name='event-destination' value='${destination}' list='destination-list-${id}'>
+          <datalist id='destination-list-${id}'>
+            ${createCitiesTemplate()}
+        </div>
 
-          <div class='event__field-group  event__field-group--time'>
-            <label class='visually-hidden' for='event-start-time-${id}'>From</label>
-            <input class='event__input  event__input--time' id='event-start-time-${id}' type='text' name='event-start-time' value='${dayjs(dateFrom).format(DATE_TIME_FORMAT)}'>
-            <label class='visually-hidden' for='event-end-time-${id}'>To</label>
-            <input class='event__input  event__input--time' id='event-end-time-${id}' type='text' name='event-end-time' value='${dayjs(dateTo).format(DATE_TIME_FORMAT)}'>
-          </div>
+        <div class='event__field-group  event__field-group--time'>
+          <label class='visually-hidden' for='event-start-time-${id}'>From</label>
+          <input class='event__input  event__input--time' id='event-start-time-${id}' type='text' name='event-start-time' value='${dayjs(dateFrom).format(DATE_TIME_FORMAT)}'>
+          <label class='visually-hidden' for='event-end-time-${id}'>To</label>
+          <input class='event__input  event__input--time' id='event-end-time-${id}' type='text' name='event-end-time' value='${dayjs(dateTo).format(DATE_TIME_FORMAT)}'>
+        </div>
 
-          <div class='event__field-group  event__field-group--price'>
-            <label class='event__label' for='event-price-${id}'>
-              <span class='visually-hidden'>Price</span>
-              &euro;
-            </label>
-            <input class='event__input  event__input--price' id='event-price-${id}' type='text' name='event-price' value='${basePrice}'>
-          </div>
+        <div class='event__field-group  event__field-group--price'>
+          <label class='event__label' for='event-price-${id}'>
+            <span class='visually-hidden'>Price</span>
+            &euro;
+          </label>
+          <input class='event__input  event__input--price' id='event-price-${id}' type='text' name='event-price' value='${basePrice}'>
+        </div>
 
-          ${createActionsTemplate(id)}
-        </header>
+        ${createActionsTemplate(id)}
+      </header>
 
-        <section class='event__details'>
-          ${createOffersTemplate(id, offers)}
-          ${createDestinationTemplate(destinationInfo)}
-        </section>
-      </form>
-    </li>`;
+      <section class='event__details'>
+        ${createOffersTemplate(id, offers)}
+        ${createDestinationTemplate(destinationInfo)}
+      </section>
+    </form>
+  `;
 };
+
+export class EditPoint {
+  #element = null;
+  #point = null;
+
+  constructor(point) {
+    this.#point = point;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+    return this.#element;
+  }
+
+  get template() {
+    return createEditPointTemplate(this.#point);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
