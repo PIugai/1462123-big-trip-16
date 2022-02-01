@@ -1,4 +1,5 @@
-import { createElement } from '../render.js';
+import { AbstractView } from './abstract-view.js';
+
 const MessageTypes = {
   EVERYTHING: 'Click New Event to create your first point',
   PAST: 'There are no past events now',
@@ -8,26 +9,15 @@ const MessageTypes = {
 const createEmptyPointsListMessageTemplate = (messageType) =>
   `<p class="trip-events__msg">${messageType}</p>`;
 
-export class EmptyPointsListMessageView {
-  #element = null;
+export class EmptyPointsListMessageView extends AbstractView {
   #messageType = null;
 
   constructor(messageType = MessageTypes.EVERYTHING) {
+    super();
     this.#messageType = messageType;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
   }
 
   get template() {
     return createEmptyPointsListMessageTemplate(this.#messageType);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
