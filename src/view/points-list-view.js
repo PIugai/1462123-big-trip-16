@@ -4,7 +4,7 @@ export const createPointsListTemplate = () =>
   `<ul class="trip-events__list">
   </ul>`;
 
-export class PointsList {
+export class PointsListView {
   #element = null;
 
   get element() {

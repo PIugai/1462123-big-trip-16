@@ -5,7 +5,7 @@ const createPointsListItemTemplate = (itemContent) =>
     ${itemContent}
   </li>`;
 
-export class PointsListItem {
+export class PointsListItemView {
   #element = null;
   #item = null;
 
