@@ -52,4 +52,16 @@ export class PointsListItemView extends AbstractView {
     evt.preventDefault();
     this._callback.deleteButtonClick();
   };
+
+  setFavoriteButtonClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element
+      .querySelector('.event__favorite-btn')
+      .addEventListener('click', this.#favoriteButtonClickHandler);
+  };
+
+  #favoriteButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  };
 }

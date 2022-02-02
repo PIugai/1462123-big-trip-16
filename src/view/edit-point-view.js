@@ -19,16 +19,15 @@ const createCityTemplate = (city) => `<option value='${city}'></option>`;
 
 const createCitiesTemplate = () => cities.map((city) => createCityTemplate(city)).join('');
 
-const createOfferTemplate = (pointId, offer) => (
+const createOfferTemplate = (pointId, offer) =>
   `<div class='event__offer-selector'>
-    <input class='event__offer-checkbox  visually-hidden' id='event-offer-luggage-${pointId}' type='checkbox' name='event-offer-luggage' checked>
-    <label class='event__offer-label' for='event-offer-luggage-${pointId}'>
+    <input class='event__offer-checkbox  visually-hidden' id='event-offer-luggage-${pointId}-${offer.id}' type='checkbox' name='event-offer-luggage' checked>
+    <label class='event__offer-label' for='event-offer-luggage-${pointId}-${offer.id}'>
       <span class='event__offer-title'>${offer.title}</span>
       &plus;&euro;&nbsp;
       <span class='event__offer-price'>${offer.price}</span>
     </label>
-  </div>`
-);
+  </div>`;
 
 const createOffersListTemplate = (pointId, offers) => offers.map((offer) => createOfferTemplate(pointId, offer)).join('');
 
@@ -84,7 +83,7 @@ const createActionsTemplate = (id) =>
 
 const createEditPointTemplate = (point = {}) => {
   const {
-    id = 0,
+    id = new Date().getTime(),
     type = 'taxi',
     destination = '',
     offers = null,
