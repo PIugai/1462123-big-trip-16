@@ -1,16 +1,16 @@
-import { getRandomInteger } from "../utils/get-random-integer.js";
-import { shuffleArray } from "../utils/shuffle-array.js";
+import { getRandomInteger } from '../utils/get-random-integer.js';
+import { shuffleArray } from '../utils/shuffle-array.js';
 
 const DESCRIPTIONS_COUNT_MIN = 1;
 const DESCRIPTIONS_COUNT_MAX = 5;
 const DESTINATION_PHOTOS_COUNT_MIN = 1;
 const DESTINATION_PHOTOS_COUNT_MAX = 5;
-const PHOTOS_URL_TEMPLATE = "http://picsum.photos/248/152?r=";
+const PHOTOS_URL_TEMPLATE = 'http://picsum.photos/248/152?r=';
 
 const getDescriptions = () => {
   const DESCRIPTION =
-    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus tempora cum placeat dolorum molestias, aliquid iusto aliquam quod consequuntur. Esse, eos aliquam animi amet doloremque quos odio inventore optio voluptate. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates id sed dolor corrupti ipsam, corporis recusandae reprehenderit, sequi voluptatibus et, aut quas! Accusantium id sit facilis, cum blanditiis odit perspiciatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor amet consequatur nemo quis omnis eum a, hic unde excepturi cupiditate, beatae assumenda cum? Vel inventore aut excepturi aliquid! Autem, eos?";
-  const descriptions = DESCRIPTION.split(".");
+    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus tempora cum placeat dolorum molestias, aliquid iusto aliquam quod consequuntur. Esse, eos aliquam animi amet doloremque quos odio inventore optio voluptate. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates id sed dolor corrupti ipsam, corporis recusandae reprehenderit, sequi voluptatibus et, aut quas! Accusantium id sit facilis, cum blanditiis odit perspiciatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor amet consequatur nemo quis omnis eum a, hic unde excepturi cupiditate, beatae assumenda cum? Vel inventore aut excepturi aliquid! Autem, eos?';
+  const descriptions = DESCRIPTION.split('.');
   return descriptions.filter((item) => item.length).map((item) => item.trim());
 };
 
@@ -20,7 +20,7 @@ const generateDescription = () => {
   const shuffledDescriptions = shuffleArray(descriptionsList);
   const description = shuffledDescriptions
     .slice(0, getRandomInteger(DESCRIPTIONS_COUNT_MIN, DESCRIPTIONS_COUNT_MAX))
-    .join(". ");
+    .join('. ');
   return `${description}.`;
 };
 

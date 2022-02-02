@@ -1,6 +1,6 @@
 import { getRandomInteger } from '../utils/get-random-integer.js';
 import { shuffleArray } from '../utils/shuffle-array.js';
-import { pointTypes } from "../const.js";
+import { pointTypes } from '../const.js';
 
 const titles = [
   'Upgrade to a business class',

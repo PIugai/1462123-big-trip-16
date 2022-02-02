@@ -27,10 +27,10 @@ const createTypeTemplate = (id, type, currentType) => {
 const createTypesTemplate = (id, currentType) =>
   pointTypes.map((type) => createTypeTemplate(id, type, currentType)).join('');
 
-const createTownTemplate = (town) => `<option value="${town}"></option>`;
+const createCityTemplate = (city) => `<option value="${city}"></option>`;
 
-const createTownsTemplate = () =>
-  cities.map((city) => createTownTemplate(city)).join('');
+const createCitiesTemplate = () =>
+  cities.map((city) => createCityTemplate(city)).join('');
 
 const createOfferTemplate = (pointId, offer, pointOffers) => {
   let isSelectedPointOffer = false;
@@ -150,7 +150,7 @@ const createEditPointTemplate = (point = {}) => {
           </label>
           <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value="${destination}" list="destination-list-${id}">
           <datalist id="destination-list-${id}">
-            ${createTownsTemplate()}
+            ${createCitiesTemplate()}
           </datalist>
         </div>
 
