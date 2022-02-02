@@ -1,6 +1,5 @@
 import { EditPointView } from '../view/edit-point-view.js';
 import { PointView } from '../view/point-view.js';
-import { PointsListItemView } from '../view/points-list-item-view.js';
 import { removeElement, renderElement, replaceElement } from '../utils/render.js';
 
 const MODE = {
@@ -9,11 +8,9 @@ const MODE = {
 };
 
 export class PointPresenter {
-  #editPoint = null;
   #mode = MODE.DEFAULT;
   #modeUpdateHandler = null;
   #pointsContainer = null;
-  #point = null;
   #pointItem = null;
   #pointListItem = null;
   #pointEditListItem = null;
@@ -32,10 +29,8 @@ export class PointPresenter {
     this.#previousPointEditListItem = this.#pointEditListItem;
 
     this.#pointItem = pointItem;
-    this.#point = new PointView(pointItem);
-    this.#pointListItem = new PointsListItemView(this.#point.template);
-    this.#editPoint = new EditPointView(pointItem);
-    this.#pointEditListItem = new PointsListItemView(this.#editPoint.template);
+    this.#pointListItem = new PointView(pointItem);
+    this.#pointEditListItem = new EditPointView(pointItem);
 
     this.#pointListItem.setRollupButtonClickHandler(() => {
       this.#replacePointToForm();
@@ -45,11 +40,13 @@ export class PointPresenter {
       this.#handleFavoriteButtonClick
     );
 
-    this.#pointEditListItem.setSaveButtonClickHandler(() => {
+    this.#pointEditListItem.setSaveButtonClickHandler((updatedPointItem) => {
+      this.#pointUpdateHandler(updatedPointItem);
       this.#replaceFormToPoint();
     });
 
     this.#pointEditListItem.setRollupButtonClickHandler(() => {
+      this.#pointEditListItem.reset(this.#pointItem);
       this.#replaceFormToPoint();
     });
 
@@ -110,6 +107,7 @@ export class PointPresenter {
   #onEscapeKeyDown = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
+      this.#pointEditListItem.reset(this.#pointItem);
       this.#replaceFormToPoint();
       document.removeEventListener('keydown', this.#onEscapeKeyDown);
     }

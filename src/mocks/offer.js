@@ -1,5 +1,6 @@
 import { getRandomInteger } from '../utils/get-random-integer.js';
 import { shuffleArray } from '../utils/shuffle-array.js';
+import { pointTypes } from '../const.js';
 
 const titles = [
   'Upgrade to a business class',
@@ -26,7 +27,7 @@ const getOffer = (index) => ({
   price: generatePrice(),
 });
 
-const generateOffers = () => {
+const generateTypeOffers = () => {
   const offersCount = getRandomInteger(OFFERS_COUNT_MIN, OFFERS_COUNT_MAX);
   return !offersCount
     ? null
@@ -35,4 +36,10 @@ const generateOffers = () => {
       .map((_, i) => getOffer(i));
 };
 
-export { generateOffers };
+const generateOffers = () =>
+  pointTypes.map((pointType) => ({
+    type: pointType,
+    offers: generateTypeOffers(),
+  }));
+
+export const offersByPointTypes = generateOffers();
