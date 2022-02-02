@@ -4,8 +4,10 @@ import { PointPresenter } from './point-presenter.js';
 import { renderElement } from '../utils/render.js';
 import { SortView } from '../view/sort-view.js';
 import { updateArrayElement } from '../utils/update-array-element.js';
-
+import { DEFAULT_SORT_TYPE, SortType } from '../const.js';
+import { sortPointsByDateDesc, sortPointsByPriceDesc, sortPointsByTimeDesc } from '../utils/sort-points.js';
 export class TripPresenter {
+  #currentSortType = DEFAULT_SORT_TYPE;
   #tripRouteContainer = null;
   #tripPoints = [];
 
@@ -20,8 +22,12 @@ export class TripPresenter {
 
   init = (tripPoints) => {
     this.#tripPoints = tripPoints;
-
+    this.#sortPoints(this.#currentSortType);
     this.#renderTripRoute();
+  };
+
+  #clearTripPoints = () => {
+    this.#tripPointsPresenter.forEach((presenter) => presenter.destroy());
   };
 
   #renderEmptyTripRoute = () =>
@@ -32,6 +38,7 @@ export class TripPresenter {
       this.#renderEmptyTripRoute();
     } else {
       renderElement(this.#tripRouteContainer, this.#sort);
+      this.#sort.setSortTypeChange(this.#handleSortChange);
       renderElement(this.#tripRouteContainer, this.#pointsList);
       this.#renderTripPoints();
     }
@@ -60,5 +67,31 @@ export class TripPresenter {
   #handlePointUpdate = (updatedPoint) => {
     this.#tripPoints = updateArrayElement(this.#tripPoints, updatedPoint);
     this.#tripPointsPresenter.get(updatedPoint.id).init(updatedPoint);
+  };
+
+  #handleSortChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+    this.#sortPoints(sortType);
+    this.#clearTripPoints();
+    this.#renderTripPoints();
+  };
+
+  #sortPoints = (sortType) => {
+    switch (sortType) {
+      case SortType.DAY_DESC:
+        this.#tripPoints.sort(sortPointsByDateDesc);
+        break;
+      case SortType.TIME_DESC:
+        this.#tripPoints.sort(sortPointsByTimeDesc);
+        break;
+      case SortType.PRICE_DESC:
+        this.#tripPoints.sort(sortPointsByPriceDesc);
+        break;
+      default:
+        this.#tripPoints.sort(sortPointsByDateDesc);
+    }
+    this.#currentSortType = sortType;
   };
 }

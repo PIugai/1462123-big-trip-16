@@ -30,10 +30,10 @@ const createOffersTemplate = (offers) => {
 };
 
 const formatNumberInTwoDigits = (number) =>
-  number > 10 ? number : `0${number}`;
+  number > 9 ? number : `0${number}`;
 
 const formatDateDiff = (dateFrom, dateTo) => {
-  const diffInMinutes = dayjs(dateTo).diff(dateFrom, 'minute');
+  const diffInMinutes = dayjs(dateTo).diff(dayjs(dateFrom), 'minute');
   if (diffInMinutes < MINUTES_IN_HOUR) {
     return `${formatNumberInTwoDigits(diffInMinutes)}M`;
   } else {

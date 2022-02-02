@@ -74,6 +74,11 @@ export class PointPresenter {
     }
   };
 
+  destroy = () => {
+    removeElement(this.#pointListItem);
+    removeElement(this.#pointEditListItem);
+  };
+
   #reInit = () => {
     if (this.#mode === MODE.DEFAULT) {
       replaceElement(this.#pointListItem, this.#previousPointListItem);
