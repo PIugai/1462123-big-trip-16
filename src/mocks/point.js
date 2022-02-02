@@ -1,22 +1,10 @@
-import { generateOffers } from './offer.js';
-import { shuffleArray } from '../utils/shuffle-array.js';
+import { generateDestinationInfo } from './destination-info.js';
+import { pointTypes } from '../const.js';
 import { getRandomInteger } from '../utils/get-random-integer.js';
 import { getRandomArrayElement } from '../utils/get-random-array-element.js';
 import dayjs from 'dayjs';
 
-const types = [
-  'taxi',
-  'bus',
-  'train',
-  'ship',
-  'drive',
-  'flight',
-  'check-in',
-  'sightseeing',
-  'restaurant',
-];
-
-const cities = [
+export const cities = [
   'Amsterdam',
   'Bolsward',
   'Chamonix',
@@ -26,63 +14,21 @@ const cities = [
   'Tiel',
 ];
 
-const DESCRIPTIONS_COUNT_MIN = 1;
-const DESCRIPTIONS_COUNT_MAX = 5;
-const DESTINATION_PHOTOS_COUNT_MIN = 1;
-const DESTINATION_PHOTOS_COUNT_MAX = 5;
-const PHOTOS_URL_TEMPLATE = 'http://picsum.photos/248/152?r=';
 const PRICE_MIN = 1;
 const PRICE_MAX = 1000;
 const DAYS_GAP = 7;
 const MINUTES_GAP_MIN = 10;
 const MINUTES_GAP_MAX = 24 * 60 * DAYS_GAP;
 
-const generateType = () => getRandomArrayElement(types);
+const getOffersByType = (offers, type) => {
+  const typeOffers = offers.find((offer) => offer.type === type);
+  return (typeof typeOffers !== 'undefined') ? typeOffers.offers : null;
+};
+
+const generateType = () => getRandomArrayElement(pointTypes);
 
 const generateDestination = () => getRandomArrayElement(cities);
 
-const getDescriptions = () => {
-  const DESCRIPTION =
-    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus tempora cum placeat dolorum molestias, aliquid iusto aliquam quod consequuntur. Esse, eos aliquam animi amet doloremque quos odio inventore optio voluptate. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates id sed dolor corrupti ipsam, corporis recusandae reprehenderit, sequi voluptatibus et, aut quas! Accusantium id sit facilis, cum blanditiis odit perspiciatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor amet consequatur nemo quis omnis eum a, hic unde excepturi cupiditate, beatae assumenda cum? Vel inventore aut excepturi aliquid! Autem, eos?';
-  const descriptions = DESCRIPTION.split('.');
-  return descriptions.filter((item) => item.length).map((item) => item.trim());
-};
-
-const descriptionsList = getDescriptions();
-
-const generateDescription = () => {
-  const shuffledDescriptions = shuffleArray(descriptionsList);
-  const description = shuffledDescriptions
-    .slice(0, getRandomInteger(DESCRIPTIONS_COUNT_MIN, DESCRIPTIONS_COUNT_MAX))
-    .join('. ');
-  return `${description}.`;
-};
-
-const getPicture = () => {
-  const shuffledDescriptions = shuffleArray(descriptionsList);
-  return {
-    src: PHOTOS_URL_TEMPLATE + Math.random(),
-    description: shuffledDescriptions[0],
-  };
-};
-
-const generateDestinationPhotos = () =>
-  Array(
-    getRandomInteger(DESTINATION_PHOTOS_COUNT_MIN, DESTINATION_PHOTOS_COUNT_MAX)
-  )
-    .fill(null)
-    .map(() => getPicture());
-
-const generateDestinationInfo = () => {
-  if (!getRandomInteger(0, 1)) {
-    return null;
-  }
-
-  return {
-    description: generateDescription(),
-    pictures: generateDestinationPhotos(),
-  };
-};
 
 const generatePrice = () => getRandomInteger(PRICE_MIN, PRICE_MAX);
 
@@ -94,14 +40,14 @@ const generateDateFrom = () =>
 const generateDateTo = (dateFrom, dateGapInMinutes) =>
   dayjs(dateFrom).add(dateGapInMinutes, 'minute').toDate();
 
-const generatePoint = (id) => {
+export const generatePoint = (id, offers) => {
   const dateFrom = generateDateFrom();
-  const dateGapInMinutes = getRandomInteger(MINUTES_GAP_MIN, MINUTES_GAP_MAX);
+  const type = generateType();
   return {
     id,
-    type: generateType(),
+    type,
     destination: generateDestination(),
-    offers: generateOffers(),
+    offers: getOffersByType(offers, type),
     destinationInfo: generateDestinationInfo(),
     basePrice: generatePrice(),
     isFavorite: generateIsFavorite(),
@@ -110,8 +56,5 @@ const generatePoint = (id) => {
       dateFrom,
       getRandomInteger(MINUTES_GAP_MIN, MINUTES_GAP_MAX)
     ),
-    dateGapInMinutes,
   };
 };
-
-export { generatePoint, types, cities };
