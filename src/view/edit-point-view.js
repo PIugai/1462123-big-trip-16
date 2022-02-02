@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import { AbstractView } from './abstract-view.js';
 import dayjs from 'dayjs';
 import { types, cities } from '../mocks/point.js';
 
@@ -146,26 +146,15 @@ const createEditPointTemplate = (point = {}) => {
   `;
 };
 
-export class EditPointView {
-  #element = null;
+export class EditPointView extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
   }
 
   get template() {
     return createEditPointTemplate(this.#point);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

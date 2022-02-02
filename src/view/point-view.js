@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { createElement } from '../render.js';
+import { AbstractView } from './abstract-view.js';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATE_VIEW_FORMAT = 'MMM D';
@@ -94,26 +94,15 @@ const createPointTemplate = (point) => {
       </div>`;
 };
 
-export class PointView {
-  #element = null;
+export class PointView extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
   }
 
   get template() {
     return createPointTemplate(this.#point);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
