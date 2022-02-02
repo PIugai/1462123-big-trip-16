@@ -54,7 +54,7 @@ export const generatePoint = (id, offers) => {
     dateFrom,
     dateTo: generateDateTo(
       dateFrom,
-      getRandomInteger(MINUTES_GAP_MIN, MINUTES_GAP_MAX)
+      getRandomInteger(MINUTES_GAP_MIN, MINUTES_GAP_MAX,)
     ),
   };
 };

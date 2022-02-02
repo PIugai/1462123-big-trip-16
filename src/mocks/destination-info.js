@@ -34,7 +34,7 @@ const getPicture = () => {
 
 const generateDestinationPhotos = () =>
   Array(
-    getRandomInteger(DESTINATION_PHOTOS_COUNT_MIN, DESTINATION_PHOTOS_COUNT_MAX)
+    getRandomInteger(DESTINATION_PHOTOS_COUNT_MIN, DESTINATION_PHOTOS_COUNT_MAX,)
   )
     .fill(null)
     .map(() => getPicture());

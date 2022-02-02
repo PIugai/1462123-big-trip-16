@@ -1,16 +1,16 @@
 import { AbstractView } from '../view/abstract-view.js';
 
-const RenderPosition = {
+export const RenderPosition = {
   BEFOREBEGIN: 'beforebegin',
   AFTERBEGIN: 'afterbegin',
   BEFOREEND: 'beforeend',
   AFTEREND: 'afterend',
 };
 
-const renderElement = (
+export const renderElement = (
   container,
   element,
-  position = RenderPosition.BEFOREEND
+  position = RenderPosition.BEFOREEND,
 ) => {
   const parent =
     container instanceof AbstractView ? container.element : container;
@@ -34,13 +34,13 @@ const renderElement = (
   }
 };
 
-const createElement = (template) => {
+export const createElement = (template) => {
   const container = document.createElement('div');
   container.innerHTML = template;
   return container.firstChild;
 };
 
-const replaceElement = (newElement, oldElement) => {
+export const replaceElement = (newElement, oldElement) => {
   if (newElement === null || oldElement === null) {
     throw new Error('Unable to replace nonexistent element');
   }
@@ -59,7 +59,7 @@ const replaceElement = (newElement, oldElement) => {
   parent.replaceChild(newChild, oldChild);
 };
 
-const removeElement = (element) => {
+export const removeElement = (element) => {
   if (element === null) {
     throw new Error('Unable to remove nonexistent element');
   }
@@ -70,12 +70,4 @@ const removeElement = (element) => {
   } else {
     element.remove();
   }
-};
-
-export {
-  createElement,
-  removeElement,
-  renderElement,
-  RenderPosition,
-  replaceElement,
 };

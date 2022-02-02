@@ -1,6 +1,6 @@
 export const updateArrayElement = (elements, updateElement) => {
   const updateElementIndex = elements.findIndex(
-    (item) => item.id === updateElement.id
+    (item) => item.id === updateElement.id,
   );
 
   if (updateElementIndex === -1) {
