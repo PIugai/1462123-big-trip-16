@@ -1,6 +1,7 @@
 import { EditPointView } from '../view/edit-point-view.js';
 import { PointView } from '../view/point-view.js';
 import { removeElement, renderElement, replaceElement } from '../utils/render.js';
+import { UserActionType, ViewUpdateType } from '../utils/render.js';
 
 const MODE = {
   DEFAULT: 'VIEW',
@@ -41,7 +42,11 @@ export class PointPresenter {
     );
 
     this.#pointEditListItem.setSaveButtonClickHandler((updatedPointItem) => {
-      this.#pointUpdateHandler(updatedPointItem);
+      this.#pointUpdateHandler(
+        UserActionType.UPDATE_POINT,
+        ViewUpdateType.MINOR,
+        updatedPointItem
+      );
       this.#replaceFormToPoint();
     });
 
@@ -50,10 +55,7 @@ export class PointPresenter {
       this.#replaceFormToPoint();
     });
 
-    this.#pointEditListItem.setDeleteButtonClickHandler(() => {
-      this.#removeEditPoint();
-      document.removeEventListener('keydown', this.#onEscapeKeyDown);
-    });
+    this.#pointEditListItem.setDeleteButtonClickHandler(this.#handleDeleteButtonClick);
 
     if (
       this.#previousPointListItem === null ||
@@ -113,14 +115,25 @@ export class PointPresenter {
     }
   };
 
+  #handleFavoriteButtonClick = () => {
+    this.#handleFavoriteButtonClick(
+      UserActionType.UPDATE_POINT,
+      ViewUpdateType.PATCH,
+      {...this.#pointItem, isFavorite: !this.#pointItem.isFavorite}
+    );
+  }
+
   #removeEditPoint = () => {
     removeElement(this.#pointEditListItem);
   };
 
-  #handleFavoriteButtonClick = () => {
-    this.#pointUpdateHandler({
-      ...this.#pointItem,
-      isFavorite: !this.#pointItem.isFavorite,
-    });
-  };
+  #handleDeleteButtonClick = () => {
+    this.#removeEditPoint();
+    this.#pointUpdateHandler(
+      UserActionType.DELETE_POINT,
+      ViewUpdateType.MINOR,
+      this.#pointItem
+    );
+    document.removeEventListener('keydown', this.#onEscapeKeyDown);
+  }
 }

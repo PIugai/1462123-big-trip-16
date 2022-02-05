@@ -4,7 +4,10 @@ import {
   renderElement,
   replaceElement,
 } from '../utils/render.js';
-import { ViewUpdateType } from '../const.js';
+import {
+  FilterType,
+  ViewUpdateType
+} from '../const.js';
 
 export class FiltersPresenter {
   #filterContainer = null;
@@ -49,5 +52,15 @@ export class FiltersPresenter {
     }
 
     this.#filtersModel.setFilter(ViewUpdateType.MAJOR, filterType);
+  };
+
+  destroy = () => {
+    removeElement(this.#filterContainer);
+    this.#filterComponent = null;
+
+    this.#filtersModel.removeObserver(this.#handleModelEvent);
+    this.#pointsModel.removeObserver(this.#handleModelEvent);
+
+    this.#filtersModel.setFilter(ViewUpdateType.MINOR, FilterType.EVERYTHING);
   };
 }

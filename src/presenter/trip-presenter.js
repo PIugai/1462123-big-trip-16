@@ -3,7 +3,6 @@ import { PointsListView } from '../view/points-list-view.js';
 import { PointPresenter } from './point-presenter.js';
 import { renderElement } from '../utils/render.js';
 import { SortView } from '../view/sort-view.js';
-import { updateArrayElement } from '../utils/update-array-element.js';
 import { DEFAULT_SORT_TYPE, SortType } from '../const.js';
 import { sortPointsByDateDesc, sortPointsByPriceDesc, sortPointsByTimeDesc } from '../utils/sort-points.js';
 export class TripPresenter {

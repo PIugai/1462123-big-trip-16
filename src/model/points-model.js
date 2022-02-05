@@ -1,6 +1,6 @@
-import { AbstractObserver } from '../utils/abstract-observer.js';
+import { AbstractObservable } from '../utils/abstract-observable.js';
 
-export class PointsModel extends AbstractObserver {
+export class PointsModel extends AbstractObservable {
   #points = [];
 
   set points(points) {
