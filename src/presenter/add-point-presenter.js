@@ -4,17 +4,65 @@ import {
   renderElement,
   RenderPosition,
 } from '../utils/render.js';
-import { UserActionType, ViewUpdateType } from '../const.js';
+import {
+  UserActionType,
+  DATE_RANGE_MINUTES_GAP_MIN,
+  ViewUpdateType,
+} from '../const.js';
+import dayjs from 'dayjs';
 
-class AddPointPresenter {
+const DEFAULT_POINT_TYPE = 'taxi';
+
+const BLANK_POINT = {
+  id: 0,
+  type: DEFAULT_POINT_TYPE,
+  destination: null,
+  offers: null,
+  destinationInfo: null,
+  basePrice: 1,
+  dateFrom: dayjs(),
+  dateTo: dayjs().add(DATE_RANGE_MINUTES_GAP_MIN, 'minute'),
+  isFavorite: false,
+};
+
+export class AddPointPresenter {
   #pointsContainer = null;
   #pointEditListItem = null;
   #pointUpdateHandler = null;
+  #offersModel = null;
+  #onDestroyHandler = null;
+  #destinations = null;
+  #destinationsModel = null;
 
-  constructor(pointsContainer, pointUpdateHandler) {
+  constructor(
+    pointsContainer,
+    pointUpdateHandler,
+    offersModel,
+    destinationsModel
+  ) {
     this.#pointsContainer = pointsContainer;
     this.#pointUpdateHandler = pointUpdateHandler;
+    this.#offersModel = offersModel;
+    this.#destinationsModel = destinationsModel;
+    this.#destinations = this.#destinationsModel.destinations;
   }
+
+  #getBlankPoint = () => {
+    if (!this.#destinations) {
+      return BLANK_POINT;
+    }
+    const firstDestination = this.#destinations.find(
+      (element, index) => index === 0
+    );
+    return {
+      ...BLANK_POINT,
+      destination: firstDestination.name,
+      destinationInfo: {
+        description: firstDestination.description,
+        pictures: firstDestination.pictures,
+      },
+    };
+  };
 
   init = () => {
     if (this.#pointEditListItem !== null) {
@@ -22,6 +70,11 @@ class AddPointPresenter {
     }
 
     this.#pointEditListItem = new EditPointView();
+    this.#pointEditListItem = new EditPointView(
+      this.#getBlankPoint(),
+      this.#offersModel,
+      this.#destinationsModel
+    );
     this.#pointEditListItem.setSaveClickHandler(this.#handleSaveClick);
     this.#pointEditListItem.setCancelClickHandler(this.#handleCancelClick);
 
@@ -42,6 +95,7 @@ class AddPointPresenter {
     this.#pointEditListItem = null;
 
     document.removeEventListener('keydown', this.#onEscapeKeyDown);
+    this.#onDestroyHandler();
   };
 
   #onEscapeKeyDown = (evt) => {
@@ -51,17 +105,33 @@ class AddPointPresenter {
     }
   };
 
+  setSaving = () => {
+    this.#pointEditListItem.updateData({
+      isDisabled: true,
+      isSaving: true,
+    });
+  };
+
+  setAborting = () => {
+    const resetFormState = () => {
+      this.#pointEditListItem.updateData({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#pointEditListItem.shake(resetFormState);
+  };
+
   #handleSaveClick = (point) => {
     this.#pointUpdateHandler(UserActionType.ADD_POINT, ViewUpdateType.MAJOR, {
       id: 0,
       ...point,
     });
-    this.destroy();
   };
 
   #handleCancelClick = () => {
     this.destroy();
   };
 }
-
-export { AddPointPresenter };

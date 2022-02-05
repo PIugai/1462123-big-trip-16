@@ -1,10 +1,10 @@
 import { AbstractView } from './abstract-view.js';
 import { SortType } from '../const.js';
 
-export const createSortTemplate = () =>
+export const createSortTemplate = (currentSortType) =>
   `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     <div class="trip-sort__item  trip-sort__item--day">
-      <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day">
+      <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day" ${currentSortType === SortType.DAY_DESC ? 'checked' : ''}>
       <label class="trip-sort__btn" for="sort-day" data-sort-type="${SortType.DAY_DESC}">Day</label>
     </div>
 
@@ -14,12 +14,12 @@ export const createSortTemplate = () =>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--time">
-      <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time">
+      <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time" ${currentSortType === SortType.TIME_DESC ? 'checked' : ''}>
       <label class="trip-sort__btn" for="sort-time" data-sort-type="${SortType.TIME_DESC}">Time</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--price">
-      <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price" checked>
+      <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price" ${currentSortType === SortType.TIME_DESC ? 'checked' : ''}>
       <label class="trip-sort__btn" for="sort-price" data-sort-type="${SortType.PRICE_DESC}">Price</label>
     </div>
 
@@ -29,22 +29,29 @@ export const createSortTemplate = () =>
     </div>
   </form>`;
 
-export class SortView extends AbstractView{
+export class SortView extends AbstractView {
+  #currentSortType = null;
+
+  constructor(currentSortType) {
+    super();
+    this.#currentSortType = currentSortType;
+  }
+
   get template() {
-    return createSortTemplate();
+    return createSortTemplate(this.#currentSortType);
   }
 
   setSortTypeChange = (callback) => {
     this._callback.sortTypeChange = callback;
     this.element.addEventListener('click', this.#sortTypeChangeHandler);
-  }
+  };
 
   #sortTypeChangeHandler = (evt) => {
-    if (evt.target.tagName !== 'LABEL') {
+    if (evt.target.tagName !== 'LABEL' || this.element.querySelector(`#${evt.target.getAttribute('for')}`).disabled) {
       return;
     }
 
     evt.preventDefault();
     this._callback.sortTypeChange(evt.target.dataset.sortType);
-  }
+  };
 }

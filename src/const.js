@@ -1,3 +1,10 @@
+export const ApiMethod = {
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
+};
+
 export const pointTypes = [
   'taxi',
   'bus',
@@ -18,6 +25,8 @@ export const SortType = {
 
 export const DEFAULT_SORT_TYPE = SortType.TIME_DESC;
 
+export const DATE_RANGE_MINUTES_GAP_MIN = 1;
+
 export const UserActionType = {
   UPDATE_POINT: 'UPDATE_POINT',
   ADD_POINT: 'ADD_POINT',
@@ -25,9 +34,15 @@ export const UserActionType = {
 };
 
 export const ViewUpdateType = {
+  INIT: 'INIT',
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+};
+
+export const ServiceLoadUpdateType = {
+  ERROR: 'ERROR',
+  SUCCESS: 'SUCCESS',
 };
 
 export const FilterType = {

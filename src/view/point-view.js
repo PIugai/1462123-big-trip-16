@@ -1,11 +1,10 @@
 import { AbstractView } from './abstract-view.js';
 import dayjs from 'dayjs';
+import { getFormattedDatesDiff } from '../utils/dates-diff.js';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm';
 const DATE_VIEW_FORMAT = 'MMM D';
-const HOURS_IN_DAY = 24;
-const MINUTES_IN_HOUR = 60;
 const TIME_FORMAT = 'HH:mm';
 
 const createOfferTemplate = (offer) =>
@@ -29,30 +28,6 @@ const createOffersTemplate = (offers) => {
   </ul>`;
 };
 
-const formatNumberInTwoDigits = (number) =>
-  number > 9 ? number : `0${number}`;
-
-const formatDateDiff = (dateFrom, dateTo) => {
-  const diffInMinutes = dayjs(dateTo).diff(dayjs(dateFrom), 'minute');
-  if (diffInMinutes < MINUTES_IN_HOUR) {
-    return `${formatNumberInTwoDigits(diffInMinutes)}M`;
-  } else {
-    let hours = Math.trunc(diffInMinutes / MINUTES_IN_HOUR);
-    const minutes = diffInMinutes % MINUTES_IN_HOUR;
-    if (hours < HOURS_IN_DAY) {
-      return `${formatNumberInTwoDigits(hours)}H ${formatNumberInTwoDigits(
-        minutes
-      )}M`;
-    } else {
-      const days = Math.trunc(hours / HOURS_IN_DAY);
-      hours = days % HOURS_IN_DAY;
-      return `${formatNumberInTwoDigits(days)}D ${formatNumberInTwoDigits(
-        hours
-      )}H ${formatNumberInTwoDigits(minutes)}M`;
-    }
-  }
-};
-
 const createPointTemplate = (point) => {
   const dateFrom = dayjs(point.dateFrom).format(DATE_FORMAT);
   const dateFromInViewFormat = dayjs(point.dateFrom).format(DATE_VIEW_FORMAT);
@@ -60,7 +35,7 @@ const createPointTemplate = (point) => {
   const timeTo = dayjs(point.dateTo).format(TIME_FORMAT);
   const dateTimeFrom = dayjs(point.dateFrom).format(DATE_TIME_FORMAT);
   const dateTimeTo = dayjs(point.dateTo).format(DATE_TIME_FORMAT);
-  const dateDiff = formatDateDiff(point.dateFrom, point.dateTo);
+  const dateDiff = getFormattedDatesDiff(point.dateFrom, point.dateTo);
   const isFavoriteClassName = point.isFavorite
     ? 'event__favorite-btn--active'
     : '';
@@ -122,14 +97,14 @@ export class PointView extends AbstractView {
   };
 
   setFavoriteButtonClickHandler = (callback) => {
-    this._callback.favouriteClick = callback;
+    this._callback.favoriteButtonClick = callback;
     this.element
       .querySelector('.event__favorite-btn')
-      .addEventListener('click', this.#favouriteClickHandler);
+      .addEventListener('click', this.#favoriteButtonClickHandler);
   };
 
-  #favouriteClickHandler = (evt) => {
+  #favoriteButtonClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.favouriteClick();
+    this._callback.favoriteButtonClick();
   };
 }
