@@ -1,11 +1,12 @@
 import { AbstractView } from './abstract-view.js';
 import dayjs from 'dayjs';
 import { getFormattedDatesDiff } from '../utils/dates-diff.js';
-
-const DATE_FORMAT = 'YYYY-MM-DD';
-const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm';
-const DATE_VIEW_FORMAT = 'MMM D';
-const TIME_FORMAT = 'HH:mm';
+import {
+  DATE_FORMAT,
+  DATE_TIME_FORMAT,
+  DATE_VIEW_FORMAT,
+  TIME_FORMAT
+} from '../const.js';
 
 const createOfferTemplate = (offer) => (
   `<li class="event__offer">

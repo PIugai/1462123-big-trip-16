@@ -72,3 +72,32 @@ export const State = {
   DELETING: 'DELETING',
   ABORTING: 'ABORTING',
 };
+
+export const DIFFERENT_MONTHS_DATE_FORMAT = 'D MMM';
+export const EQUAL_MONTHS_DATE_FROM_FORMAT = 'MMM D';
+export const EQUAL_MONTHS_DATE_TO_FORMAT = 'D';
+
+export const DEFAULT_POINT_TYPE = 'taxi';
+
+export const ChartSettings = {
+  BAR_HEIGHT: 55,
+  DATASETS_BACKGROUND_COLOR: '#ffffff',
+  DATASETS_HOVER_BACKGROUND_COLOR: '#ffffff',
+  DATALABELS_FONT_COLOR: '#000000',
+  TITLE_FONT_COLOR: '#000000',
+  TICKS_FONT_COLOR: '#000000',
+};
+
+export const RenderPosition = {
+  BEFOREBEGIN: 'beforebegin',
+  AFTERBEGIN: 'afterbegin',
+  BEFOREEND: 'beforeend',
+  AFTEREND: 'afterend',
+};
+
+export const SHAKE_ANIMATION_TIMEOUT = 600;
+
+export const DATE_FORMAT = 'YYYY-MM-DD';
+export const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm';
+export const DATE_VIEW_FORMAT = 'MMM D';
+export const TIME_FORMAT = 'HH:mm';

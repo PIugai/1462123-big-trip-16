@@ -1,4 +1,7 @@
-import { getDuration, getFormattedDuration } from '../utils/dates-diff.js';
+import {
+  getDuration,
+  getFormattedDuration
+} from '../utils/dates-diff.js';
 import { pointTypes } from '../const.js';
 import { RenderChart } from '../utils/render-chart.js';
 import { SmartView } from './smart-view.js';
@@ -101,7 +104,7 @@ const renderTimeChart = (container, points) => {
   );
 };
 
-const createStatisticsTemplate = () =>
+const createStatisticsTemplate = () => (
   `<section class="statistics">
     <h2 class="visually-hidden">Trip statistics</h2>
     <div class="statistics__item">
@@ -115,7 +118,8 @@ const createStatisticsTemplate = () =>
     <div class="statistics__item">
       <canvas class="statistics__chart" id="time" width="900"></canvas>
     </div>
-  </section>`;
+  </section>`
+);
 
 export class StatisticsView extends SmartView {
   #moneyChart = null;

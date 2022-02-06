@@ -8,7 +8,6 @@ import {
 import {
   removeElement,
   renderElement,
-  RenderPosition
 } from '../utils/render.js';
 import { SortView } from '../view/sort-view.js';
 import {
@@ -18,7 +17,8 @@ import {
   SortType,
   State as PointPresenterViewState,
   UserActionType,
-  ViewUpdateType
+  ViewUpdateType,
+  RenderPosition
 } from '../const.js';
 import {
   sortPointsByDateDesc,

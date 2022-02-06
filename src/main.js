@@ -4,7 +4,11 @@ import { DestinationApiService } from './service/destination-api-service.js';
 import { FiltersModel } from './model/filters-model.js';
 import { FiltersPresenter } from './presenter/filters-presenter.js';
 import { HeaderMenuView } from './view/header-menu-view.js';
-import { HeaderMenuItems, ServiceLoadUpdateType } from './const.js';
+import {
+  HeaderMenuItems,
+  ServiceLoadUpdateType,
+  RenderPosition
+} from './const.js';
 import { LoadingMessageView } from './view/loading-message-view.js';
 import { OfferApiService } from './service/offer-api-service.js';
 import { OffersModel } from './model/offers-model.js';
@@ -13,7 +17,6 @@ import { PointsModel } from './model/points-model.js';
 import {
   removeElement,
   renderElement,
-  RenderPosition,
 } from './utils/render.js';
 import { ServiceErrorMessageView } from './view/service-error-message-view.js';
 import { StatisticsView } from './view/statistics-view.js';

@@ -2,14 +2,13 @@ import { AbstractObservable } from '../utils/abstract-observable.js';
 import dayjs from 'dayjs';
 import {
   FilterType,
-  ViewUpdateType
+  ViewUpdateType,
+  DIFFERENT_MONTHS_DATE_FORMAT,
+  EQUAL_MONTHS_DATE_FROM_FORMAT,
+  EQUAL_MONTHS_DATE_TO_FORMAT,
 } from '../const.js';
 import { filter } from '../utils/filter.js';
 import { sortPointsByDateDesc } from '../utils/sort-points.js';
-
-const DIFFERENT_MONTHS_DATE_FORMAT = 'D MMM';
-const EQUAL_MONTHS_DATE_FROM_FORMAT = 'MMM D';
-const EQUAL_MONTHS_DATE_TO_FORMAT = 'D';
 
 class PointsModel extends AbstractObservable {
   #apiService = null;

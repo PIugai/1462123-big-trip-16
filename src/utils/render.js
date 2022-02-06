@@ -1,13 +1,7 @@
-import {AbstractView} from '../view/abstract-view.js';
+import { AbstractView } from '../view/abstract-view.js';
+import { RenderPosition } from '../const.js';
 
-const RenderPosition = {
-  BEFOREBEGIN: 'beforebegin',
-  AFTERBEGIN: 'afterbegin',
-  BEFOREEND: 'beforeend',
-  AFTEREND: 'afterend',
-};
-
-const renderElement = (container, element, position = RenderPosition.BEFOREEND) => {
+export const renderElement = (container, element, position = RenderPosition.BEFOREEND) => {
   const parent = container instanceof AbstractView ? container.element : container;
   const child = element instanceof AbstractView ? element.element : element;
 
@@ -29,13 +23,13 @@ const renderElement = (container, element, position = RenderPosition.BEFOREEND) 
   }
 };
 
-const createElement = (template) => {
+export const createElement = (template) => {
   const container = document.createElement('div');
   container.innerHTML = template;
   return container.firstChild;
 };
 
-const replaceElement = (newElement, oldElement) => {
+export const replaceElement = (newElement, oldElement) => {
   if (newElement === null || oldElement === null) {
     throw new Error('Unable to replace non-existing element');
   }
@@ -52,7 +46,7 @@ const replaceElement = (newElement, oldElement) => {
   parent.replaceChild(newChild, oldChild);
 };
 
-const removeElement = (element) => {
+export const removeElement = (element) => {
   if (element === null) {
     return;
   }
@@ -63,12 +57,4 @@ const removeElement = (element) => {
   } else {
     element.remove();
   }
-};
-
-export {
-  createElement,
-  removeElement,
-  renderElement,
-  RenderPosition,
-  replaceElement
 };

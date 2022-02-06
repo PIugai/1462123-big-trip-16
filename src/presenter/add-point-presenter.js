@@ -3,15 +3,14 @@ import {
   DATE_RANGE_MINUTES_GAP_MIN,
   UserActionType,
   ViewUpdateType,
+  DEFAULT_POINT_TYPE,
+  RenderPosition,
 } from '../const.js';
 import { EditPointView } from '../view/edit-point-view.js';
 import {
   removeElement,
   renderElement,
-  RenderPosition,
 } from '../utils/render.js';
-
-const DEFAULT_POINT_TYPE = 'taxi';
 
 const BLANK_POINT = {
   id: 0,

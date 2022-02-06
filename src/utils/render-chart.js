@@ -1,14 +1,6 @@
 import { Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-
-const ChartSettings = {
-  BAR_HEIGHT: 55,
-  DATASETS_BACKGROUND_COLOR: '#ffffff',
-  DATASETS_HOVER_BACKGROUND_COLOR: '#ffffff',
-  DATALABELS_FONT_COLOR: '#000000',
-  TITLE_FONT_COLOR: '#000000',
-  TICKS_FONT_COLOR: '#000000',
-};
+import { ChartSettings } from '../const.js';
 
 export class RenderChart {
   #settings = null;

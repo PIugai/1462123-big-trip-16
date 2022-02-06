@@ -1,11 +1,12 @@
 import { AbstractView } from './abstract-view.js';
 import { HeaderMenuItems } from '../const.js';
 
-export const createHeaderMenuTemplate = (currentMenuItem) =>
+const createHeaderMenuTemplate = (currentMenuItem) => (
   `<nav class="trip-controls__trip-tabs  trip-tabs">
-    <a class="trip-tabs__btn  ${currentMenuItem === HeaderMenuItems.TRIP_ROUTE ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuItems.TRIP_ROUTE}>Table</a>
-    <a class="trip-tabs__btn ${currentMenuItem === HeaderMenuItems.STATISTICS ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuItems.STATISTICS}>Stats</a>
-  </nav>`;
+    <a class="trip-tabs__btn ${currentMenuItem === HeaderMenuItems.TRIP_ROUTE ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuItems.TRIP_ROUTE}">Table</a>
+    <a class="trip-tabs__btn ${currentMenuItem === HeaderMenuItems.STATISTICS ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuItems.STATISTICS}">Stats</a>
+  </nav>`
+);
 
 export class HeaderMenuView extends AbstractView {
   #currentMenuItem = null;
@@ -34,12 +35,12 @@ export class HeaderMenuView extends AbstractView {
         element.classList.add('trip-tabs__btn--active');
       }
     });
-  };
+  }
 
   setHeaderMenuClickHandler = (callback) => {
     this._callback.headerMenuClick = callback;
     this.element.addEventListener('click', this.#headerMenuClickHandler);
-  };
+  }
 
   #headerMenuClickHandler = (evt) => {
     evt.preventDefault();
@@ -49,5 +50,5 @@ export class HeaderMenuView extends AbstractView {
     const menuItem = evt.target.dataset.menuItem;
     this.setMenuItem(menuItem);
     this._callback.headerMenuClick(evt.target.dataset.menuItem);
-  };
+  }
 }
