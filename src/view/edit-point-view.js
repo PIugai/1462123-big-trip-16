@@ -213,15 +213,15 @@ export class EditPointView extends SmartView {
     return createEditPointTemplate(this._data, this.#destinations, this.#offers);
   }
 
-  setSaveClickHandler = (callback) => {
-    this._callback.saveClick = callback;
-    this.element.querySelector('.event__save-btn').addEventListener('click', this.#saveHandler);
+  setSaveButtonClickHandler = (callback) => {
+    this._callback.saveButtonClick = callback;
+    this.element.querySelector('.event__save-btn').addEventListener('click', this.#saveButtonClickHandler);
   }
 
-  #saveHandler = (evt) => {
+  #saveButtonClickHandler = (evt) => {
     evt.preventDefault();
     if (this.#validateForm()) {
-      this._callback.saveClick(this.#parseDataToPoint(this._data));
+      this._callback.saveButtonClick(this.#parseDataToPoint(this._data));
     }
   }
 
@@ -260,7 +260,7 @@ export class EditPointView extends SmartView {
     this.#setInnerHandlers();
     this.#setDatepickers();
 
-    this.setSaveClickHandler(this._callback.saveClick);
+    this.setSaveButtonClickHandler(this._callback.saveButtonClick);
     if (this._data.id) {
       this.setDeleteButtonClickHandler(this._callback.deleteButtonClick);
       this.setRollupButtonClickHandler(this._callback.rollupButtonClick);

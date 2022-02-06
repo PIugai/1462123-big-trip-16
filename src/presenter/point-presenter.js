@@ -56,9 +56,9 @@ export class PointPresenter {
       this.#replacePointToForm();
     });
 
-    this.#pointListItem.setFavouriteClickHandler(this.#handleFavouriteClick);
+    this.#pointListItem.setFavoriteButtonClickHandler(this.#handleFavoriteButtonClick);
 
-    this.#pointEditListItem.setSaveClickHandler(this.#handleSaveClick);
+    this.#pointEditListItem.setSaveButtonClickHandler(this.#handleSaveButtonClick);
 
     this.#pointEditListItem.setRollupButtonClickHandler(() => {
       this.#pointEditListItem.reset(this.#pointItem);
@@ -163,7 +163,7 @@ export class PointPresenter {
     }
   }
 
-  #handleFavouriteClick = () => {
+  #handleFavoriteButtonClick = () => {
     this.#pointUpdateHandler(
       UserActionType.UPDATE_POINT,
       ViewUpdateType.PATCH,
@@ -171,7 +171,7 @@ export class PointPresenter {
     );
   }
 
-  #handleSaveClick = ((updatedPointItem) => {
+  #handleSaveButtonClick = ((updatedPointItem) => {
     this.#pointUpdateHandler(
       UserActionType.UPDATE_POINT,
       ViewUpdateType.MINOR,
