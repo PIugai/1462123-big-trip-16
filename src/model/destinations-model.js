@@ -18,7 +18,7 @@ export class DestinationsModel extends AbstractObservable {
       this.#destinations = [];
       this._notify(ServiceLoadUpdateType.ERROR);
     }
-  }
+  };
 
   get destinations() {
     return this.#destinations;

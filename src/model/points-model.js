@@ -1,16 +1,20 @@
-import { AbstractObservable } from '../utils/abstract-observable.js';
+import {AbstractObservable} from '../utils/abstract-observable.js';
 import dayjs from 'dayjs';
-import { FilterType, ViewUpdateType } from '../const.js';
-import { filter } from '../utils/filter.js';
-import { sortPointsByDateDesc } from '../utils/sort-points.js';
+import {
+  FilterType,
+  ViewUpdateType
+} from '../const.js';
+import {filter} from '../utils/filter.js';
+import {sortPointsByDateDesc} from '../utils/sort-points.js';
 
 const DIFFERENT_MONTHS_DATE_FORMAT = 'D MMM';
 const EQUAL_MONTHS_DATE_FROM_FORMAT = 'MMM D';
 const EQUAL_MONTHS_DATE_TO_FORMAT = 'D';
-export class PointsModel extends AbstractObservable {
-  #apiService = null
+
+class PointsModel extends AbstractObservable {
+  #apiService = null;
   #points = [];
-  #pointsSortedByDataDesc = [];
+  #pointsSortedByDateDesc = [];
 
   constructor(apiService) {
     super();
@@ -21,7 +25,7 @@ export class PointsModel extends AbstractObservable {
     try {
       const points = await this.#apiService.points;
       this.#points = points.map((point, index) => this.#adaptToClient(point, index));
-    } catch (error) {
+    } catch (err) {
       this.#points = [];
     }
     this._notify(ViewUpdateType.INIT);
@@ -32,12 +36,10 @@ export class PointsModel extends AbstractObservable {
   }
 
   updatePoint = async (updateType, updatedPoint) => {
-    const updateElementIndex = this.#points.findIndex(
-      (item) => item.id === updatedPoint.id
-    );
+    const updateElementIndex = this.#points.findIndex((item) => item.id === updatedPoint.id);
 
     if (updateElementIndex === -1) {
-      throw new Error('Unable to update a nonexistent point');
+      throw new Error('Can\'t update unexisting point');
     }
     try {
       const response = await this.#apiService.updatePoint(updatedPoint);
@@ -45,13 +47,13 @@ export class PointsModel extends AbstractObservable {
 
       this.#points = [
         ...this.#points.slice(0, updateElementIndex),
-        updatedPoint,
-        ...this.#points.slice(updateElementIndex + 1),
+        updatedPointFromServer,
+        ...this.#points.slice(updateElementIndex + 1)
       ];
 
       this._notify(updateType, updatedPointFromServer);
-    } catch (error) {
-      throw new Error('Unable to update point');
+    } catch (err) {
+      throw new Error('Can\'t update point');
     }
   };
 
@@ -60,19 +62,22 @@ export class PointsModel extends AbstractObservable {
       const response = await this.#apiService.addPoint(addedPoint);
       const addedPointFromServer = this.#adaptToClient(response);
 
-      this.#points = [addedPointFromServer, ...this.#points];
-      this._notify(updateType, addedPoint);
+      this.#points = [
+        addedPointFromServer,
+        ...this.#points,
+      ];
 
-    } catch (error) {
-      throw new Error('Unable to add point');
+      this._notify(updateType, addedPointFromServer);
+    } catch (err) {
+      throw new Error('Can\'t add point');
     }
-  };
+  }
 
   deletePoint = async (updateType, deletedPoint) => {
     const index = this.#points.findIndex((task) => task.id === deletedPoint.id);
 
     if (index === -1) {
-      throw new Error('Unable to delete a nonexistent point');
+      throw new Error('Can\'t delete unexisting point');
     }
 
     try {
@@ -83,18 +88,18 @@ export class PointsModel extends AbstractObservable {
       ];
 
       this._notify(updateType);
-    } catch (error) {
-      throw new Error('Unable to delete point');
+    } catch (err) {
+      throw new Error('Can\'t delete point');
     }
-  };
+  }
 
   #adaptToClient = (point) => {
     let destinationInfo = {};
     if (point['destination']['description'] !== null) {
       destinationInfo.description = point['destination']['description'];
     }
-    if (point['destination']['name'] !== null) {
-      destinationInfo.name = point['destination']['name'];
+    if (point['destination']['pictures'] !== null) {
+      destinationInfo.pictures = point['destination']['pictures'];
     }
     if (!Object.keys(destinationInfo).length) {
       destinationInfo = null;
@@ -112,7 +117,7 @@ export class PointsModel extends AbstractObservable {
       destination: point['destination']['name'],
     };
 
-    delete adaptedPoint['best_price'];
+    delete adaptedPoint['base_price'];
     delete adaptedPoint['date_from'];
     delete adaptedPoint['date_to'];
     delete adaptedPoint['is_favorite'];
@@ -129,7 +134,7 @@ export class PointsModel extends AbstractObservable {
       };
     }
 
-    this.#pointsSortedByDataDesc = this.#points.sort(sortPointsByDateDesc);
+    this.#pointsSortedByDateDesc = this.#points.sort(sortPointsByDateDesc);
     return {
       title: this.getPointsSummaryTitle(),
       dates: this.getPointsSummaryDates(),
@@ -138,36 +143,34 @@ export class PointsModel extends AbstractObservable {
   };
 
   getPointsSummaryTitle = () => {
-    const pointsNumber = this.#pointsSortedByDataDesc.length;
+    const pointsNumber = this.#pointsSortedByDateDesc.length;
     let summaryTitle = '';
     if (pointsNumber === 1) {
-      summaryTitle = this.#pointsSortedByDataDesc[0].destination;
+      summaryTitle = this.#pointsSortedByDateDesc[0].destination;
     } else if (pointsNumber < 4) {
-      const summaryPointTitle = [];
-      this.#pointsSortedByDataDesc.forEach((point) => (summaryPointTitle.push(point.destination)));
-      summaryTitle = summaryPointTitle.join(' —');
+      const summaryPointTitles = [];
+      this.#pointsSortedByDateDesc.forEach((point) => summaryPointTitles.push(point.destination));
+      summaryTitle = summaryPointTitles.join(' &mdash; ');
     } else {
-      summaryTitle = `${this.#pointsSortedByDataDesc[0].destination} — ... — ${this.#pointsSortedByDataDesc[pointsNumber - 1].destination}`;
+      summaryTitle = `${this.#pointsSortedByDateDesc[0].destination} &mdash; ... &mdash; ${this.#pointsSortedByDateDesc[pointsNumber - 1].destination}`;
     }
     return summaryTitle;
-  };
+  }
 
   getPointsSummaryDates = () => {
-    const pointsNumber = this.#pointsSortedByDataDesc.length;
-    const dateFrom = this.#pointsSortedByDataDesc[0].dateFrom;
+    const pointsNumber = this.#pointsSortedByDateDesc.length;
+    const dateFrom = this.#pointsSortedByDateDesc[0].dateFrom;
     if (pointsNumber === 1) {
       return dayjs(dateFrom).format(DIFFERENT_MONTHS_DATE_FORMAT);
     }
 
     let summaryDates = '';
-    const dateTo = this.#pointsSortedByDataDesc[pointsNumber - 1].dateTo;
+    const dateTo = this.#pointsSortedByDateDesc[pointsNumber - 1].dateTo;
 
     if (dayjs(dateFrom).month() === dayjs(dateTo).month()) {
-      summaryDates = `${dayjs(dateFrom).format(
-        EQUAL_MONTHS_DATE_FROM_FORMAT
-      )} — ${dayjs(dateTo).format(EQUAL_MONTHS_DATE_TO_FORMAT)}`;
+      summaryDates = `${dayjs(dateFrom).format(EQUAL_MONTHS_DATE_FROM_FORMAT)}&nbsp;&mdash;&nbsp;${dayjs(dateTo).format(EQUAL_MONTHS_DATE_TO_FORMAT)}`;
     } else {
-      summaryDates = `${dayjs(dateFrom).format(DIFFERENT_MONTHS_DATE_FORMAT)} — ${dayjs(dateTo).format(DIFFERENT_MONTHS_DATE_FORMAT)}`;
+      summaryDates = `${dayjs(dateFrom).format(DIFFERENT_MONTHS_DATE_FORMAT)}&nbsp;&mdash;&nbsp;${dayjs(dateTo).format(DIFFERENT_MONTHS_DATE_FORMAT)}`;
     }
 
     return summaryDates;
@@ -177,17 +180,17 @@ export class PointsModel extends AbstractObservable {
     this.#points.reduce((summaryCost, point) => {
       let offersCost = 0;
       if (point.offers.length) {
-        offersCost = point.offers.reduce(
-          (summaryOffersCost, offer) => summaryOffersCost + offer.price,
-          0
-        );
+        offersCost = point.offers.reduce((summaryOffersCost, offer) => summaryOffersCost + offer.price, 0);
       }
       return summaryCost + point.basePrice + offersCost;
     }, 0)
-  );
+  )
 
   getFilteredPointsCountInfo = () => ({
     [FilterType.EVERYTHING]: this.#points.length,
     [FilterType.PAST]: filter[FilterType.PAST](this.#points).length,
-  });
+    [FilterType.FUTURE]: filter[FilterType.FUTURE](this.#points).length,
+  })
 }
+
+export {PointsModel};

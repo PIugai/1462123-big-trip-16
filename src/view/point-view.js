@@ -1,21 +1,21 @@
-import { AbstractView } from './abstract-view.js';
+import {AbstractView} from './abstract-view.js';
 import dayjs from 'dayjs';
-import { getFormattedDatesDiff } from '../utils/dates-diff.js';
+import {getFormattedDatesDiff} from '../utils/dates-diff.js';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm';
 const DATE_VIEW_FORMAT = 'MMM D';
 const TIME_FORMAT = 'HH:mm';
 
-const createOfferTemplate = (offer) =>
+const createOfferTemplate = (offer) => (
   `<li class="event__offer">
     <span class="event__offer-title">${offer.title}</span>
     &plus;&euro;&nbsp;
     <span class="event__offer-price">${offer.price}</span>
-  </li>`;
+  </li>`
+);
 
-const createOffersListTemplate = (offers) =>
-  offers.map((offer) => createOfferTemplate(offer)).join('');
+const createOffersListTemplate = (offers) => offers.map((offer) => createOfferTemplate(offer)).join('');
 
 const createOffersTemplate = (offers) => {
   if (!offers) {
@@ -36,9 +36,7 @@ const createPointTemplate = (point) => {
   const dateTimeFrom = dayjs(point.dateFrom).format(DATE_TIME_FORMAT);
   const dateTimeTo = dayjs(point.dateTo).format(DATE_TIME_FORMAT);
   const dateDiff = getFormattedDatesDiff(point.dateFrom, point.dateTo);
-  const isFavoriteClassName = point.isFavorite
-    ? 'event__favorite-btn--active'
-    : '';
+  const isFavoriteClassName = point.isFavorite ? 'event__favorite-btn--active' : '';
 
   return `<li class="trip-events__item">
     <div class="event">
@@ -73,7 +71,7 @@ const createPointTemplate = (point) => {
 };
 
 export class PointView extends AbstractView {
-  #point = null;
+  #point = null
 
   constructor(point) {
     super();
@@ -86,25 +84,21 @@ export class PointView extends AbstractView {
 
   setRollupButtonClickHandler = (callback) => {
     this._callback.rollupButtonClick = callback;
-    this.element
-      .querySelector('.event__rollup-btn')
-      .addEventListener('click', this.#rollupButtonClickHandler);
-  };
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupButtonClickHandler);
+  }
 
   #rollupButtonClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.rollupButtonClick();
-  };
+  }
 
-  setFavoriteButtonClickHandler = (callback) => {
-    this._callback.favoriteButtonClick = callback;
-    this.element
-      .querySelector('.event__favorite-btn')
-      .addEventListener('click', this.#favoriteButtonClickHandler);
-  };
+  setFavouriteClickHandler = (callback) => {
+    this._callback.favouriteClick = callback;
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favouriteClickHandler);
+  }
 
-  #favoriteButtonClickHandler = (evt) => {
+  #favouriteClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.favoriteButtonClick();
-  };
+    this._callback.favouriteClick();
+  }
 }

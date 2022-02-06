@@ -1,12 +1,14 @@
 import { createElement } from '../utils/render.js';
 
+const SHAKE_ANIMATION_TIMEOUT = 600;
+
 export class AbstractView {
   #element = null;
   _callback = {};
 
   constructor() {
     if (new.target === AbstractView) {
-      throw new Error('Failed to instantiate the Abstract class');
+      throw new Error('Can\'t instantiate an Abstract class');
     }
   }
 
@@ -18,12 +20,18 @@ export class AbstractView {
   }
 
   get template() {
-    throw new Error(
-      'Get template method has not been implemented in the abstract class'
-    );
+    throw new Error('Get template method is not implemented in an Abstract class');
   }
 
   removeElement() {
     this.#element = null;
+  }
+
+  shake(callback) {
+    this.element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    setTimeout(() => {
+      this.element.style.animation = '';
+      callback();
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 }

@@ -1,13 +1,13 @@
 import { FiltersView } from '../view/filters-view.js';
 import {
-  removeElement,
-  renderElement,
-  replaceElement,
-} from '../utils/render.js';
-import {
   FilterType,
   ViewUpdateType
 } from '../const.js';
+import {
+  removeElement,
+  renderElement,
+  replaceElement
+} from '../utils/render.js';
 
 export class FiltersPresenter {
   #filterContainer = null;
@@ -25,10 +25,11 @@ export class FiltersPresenter {
   init = () => {
     const prevFilterComponent = this.#filterComponent;
 
-    this.#filterComponent = new FiltersView(this.#filtersModel.filter);
-    this.#filterComponent.setFilterTypeChangeHandler(
-      this.#handleFilterTypeChange
+    this.#filterComponent = new FiltersView(
+      this.#filtersModel.filter,
+      this.#pointsModel.getFilteredPointsCountInfo()
     );
+    this.#filterComponent.setFilterTypeChangeHandler(this.#handleFilterTypeChange);
 
     this.#filtersModel.addObserver(this.#handleModelEvent);
     this.#pointsModel.addObserver(this.#handleModelEvent);
@@ -40,11 +41,11 @@ export class FiltersPresenter {
 
     replaceElement(this.#filterComponent, prevFilterComponent);
     removeElement(prevFilterComponent);
-  };
+  }
 
   #handleModelEvent = () => {
     this.init();
-  };
+  }
 
   #handleFilterTypeChange = (filterType) => {
     if (this.#filtersModel.filter === filterType) {
@@ -52,15 +53,15 @@ export class FiltersPresenter {
     }
 
     this.#filtersModel.setFilter(ViewUpdateType.MAJOR, filterType);
-  };
+  }
 
   destroy = () => {
-    removeElement(this.#filterContainer);
+    removeElement(this.#filterComponent);
     this.#filterComponent = null;
 
     this.#filtersModel.removeObserver(this.#handleModelEvent);
     this.#pointsModel.removeObserver(this.#handleModelEvent);
 
-    this.#filtersModel.setFilter(ViewUpdateType.MINOR, FilterType.EVERYTHING);
-  };
+    this.#filtersModel.setFilter(ViewUpdateType.MAJOR, FilterType.EVERYTHING);
+  }
 }

@@ -23,7 +23,7 @@ export const SortType = {
   PRICE_DESC: 'price_desc',
 };
 
-export const DEFAULT_SORT_TYPE = SortType.TIME_DESC;
+export const DEFAULT_SORT_TYPE = SortType.DAY_DESC;
 
 export const DATE_RANGE_MINUTES_GAP_MIN = 1;
 
@@ -48,16 +48,16 @@ export const ServiceLoadUpdateType = {
 export const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
-  Past: 'past',
+  PAST: 'past',
 };
 
 export const emptyPointsListMessageTypes = {
   [FilterType.EVERYTHING]: 'Click New Event to create your first point',
-  [FilterType.Past]: 'There are no past events',
-  [FilterType.FUTURE]: 'There are no future events',
+  [FilterType.PAST]: 'There are no past events now',
+  [FilterType.FUTURE]: 'There are no future events now',
 };
 
-export const SiteMenuItems = {
+export const HeaderMenuItems = {
   TRIP_ROUTE: 'TRIP_ROUTE',
   STATISTICS: 'STATISTICS',
 };

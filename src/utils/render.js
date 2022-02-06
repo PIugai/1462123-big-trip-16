@@ -1,19 +1,14 @@
-import { AbstractView } from '../view/abstract-view.js';
+import {AbstractView} from '../view/abstract-view.js';
 
-export const RenderPosition = {
+const RenderPosition = {
   BEFOREBEGIN: 'beforebegin',
   AFTERBEGIN: 'afterbegin',
   BEFOREEND: 'beforeend',
   AFTEREND: 'afterend',
 };
 
-export const renderElement = (
-  container,
-  element,
-  position = RenderPosition.BEFOREEND,
-) => {
-  const parent =
-    container instanceof AbstractView ? container.element : container;
+const renderElement = (container, element, position = RenderPosition.BEFOREEND) => {
+  const parent = container instanceof AbstractView ? container.element : container;
   const child = element instanceof AbstractView ? element.element : element;
 
   switch (position) {
@@ -34,34 +29,32 @@ export const renderElement = (
   }
 };
 
-export const createElement = (template) => {
+const createElement = (template) => {
   const container = document.createElement('div');
   container.innerHTML = template;
   return container.firstChild;
 };
 
-export const replaceElement = (newElement, oldElement) => {
+const replaceElement = (newElement, oldElement) => {
   if (newElement === null || oldElement === null) {
-    throw new Error('Unable to replace nonexistent element');
+    throw new Error('Unable to replace non-existing element');
   }
 
-  const newChild =
-    newElement instanceof AbstractView ? newElement.element : newElement;
-  const oldChild =
-    oldElement instanceof AbstractView ? oldElement.element : oldElement;
+  const newChild = newElement instanceof AbstractView ? newElement.element : newElement;
+  const oldChild = oldElement instanceof AbstractView ? oldElement.element : oldElement;
 
   const parent = oldChild.parentElement;
 
   if (parent === null) {
-    throw new Error('Parent element is not found');
+    throw new Error('Unable to find parent element');
   }
 
   parent.replaceChild(newChild, oldChild);
 };
 
-export const removeElement = (element) => {
+const removeElement = (element) => {
   if (element === null) {
-    throw new Error('Unable to remove nonexistent element');
+    return;
   }
 
   if (element instanceof AbstractView) {
@@ -70,4 +63,12 @@ export const removeElement = (element) => {
   } else {
     element.remove();
   }
+};
+
+export {
+  createElement,
+  removeElement,
+  renderElement,
+  RenderPosition,
+  replaceElement
 };

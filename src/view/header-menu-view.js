@@ -1,27 +1,27 @@
 import { AbstractView } from './abstract-view.js';
-import { SiteMenuItems } from '../const.js';
+import { HeaderMenuItems } from '../const.js';
 
-export const createSiteMenuTemplate = (currentMenuItem) =>
+export const createHeaderMenuTemplate = (currentMenuItem) =>
   `<nav class="trip-controls__trip-tabs  trip-tabs">
-    <a class="trip-tabs__btn  ${currentMenuItem === SiteMenuItems.TRIP_ROUTE ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${SiteMenuItems.TRIP_ROUTE}>Table</a>
-    <a class="trip-tabs__btn ${currentMenuItem === SiteMenuItems.STATISTICS ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${SiteMenuItems.STATISTICS}>Stats</a>
+    <a class="trip-tabs__btn  ${currentMenuItem === HeaderMenuItems.TRIP_ROUTE ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuItems.TRIP_ROUTE}>Table</a>
+    <a class="trip-tabs__btn ${currentMenuItem === HeaderMenuItems.STATISTICS ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuItems.STATISTICS}>Stats</a>
   </nav>`;
 
-export class SiteMenuView extends AbstractView {
+export class HeaderMenuView extends AbstractView {
   #currentMenuItem = null;
 
-  constructor(currentMenuItem = SiteMenuItems.TRIP_ROUTE) {
+  constructor(currentMenuItem = HeaderMenuItems.TRIP_ROUTE) {
     super();
 
     this.#currentMenuItem = currentMenuItem;
   }
 
   get template() {
-    return createSiteMenuTemplate(this.#currentMenuItem);
+    return createHeaderMenuTemplate(this.#currentMenuItem);
   }
 
   setMenuItem = (menuItem) => {
-    if (typeof SiteMenuItems[menuItem] === 'undefined') {
+    if (typeof HeaderMenuItems[menuItem] === 'undefined') {
       return;
     }
 
@@ -34,12 +34,12 @@ export class SiteMenuView extends AbstractView {
         element.classList.add('trip-tabs__btn--active');
       }
     });
-  }
+  };
 
   setHeaderMenuClickHandler = (callback) => {
     this._callback.headerMenuClick = callback;
     this.element.addEventListener('click', this.#headerMenuClickHandler);
-  }
+  };
 
   #headerMenuClickHandler = (evt) => {
     evt.preventDefault();
@@ -49,5 +49,5 @@ export class SiteMenuView extends AbstractView {
     const menuItem = evt.target.dataset.menuItem;
     this.setMenuItem(menuItem);
     this._callback.headerMenuClick(evt.target.dataset.menuItem);
-  }
+  };
 }

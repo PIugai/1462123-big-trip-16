@@ -1,22 +1,22 @@
-import { AddPointPresenter } from './add-point-presenter';
+import {AddPointPresenter} from './add-point-presenter.js';
 import { EmptyPointsListMessageView } from '../view/empty-points-list-message-view.js';
-import { filter } from '../utils/filter.js';
+import {filter} from '../utils/filter.js';
 import { PointsListView } from '../view/points-list-view.js';
 import {
   PointPresenter,
-  State as PointPresenterViewState,
+  State as PointPresenterViewState
 } from './point-presenter.js';
 import {
-  renderElement,
   removeElement,
+  renderElement,
   RenderPosition
 } from '../utils/render.js';
 import { SortView } from '../view/sort-view.js';
 import {
   DEFAULT_SORT_TYPE,
-  SortType,
   emptyPointsListMessageTypes,
   FilterType,
+  SortType,
   UserActionType,
   ViewUpdateType
 } from '../const.js';
@@ -27,7 +27,7 @@ import {
 } from '../utils/sort-points.js';
 import { TripInfoView } from '../view/trip-info-view.js';
 
-export class TripPresenter {
+export class TripRoutePresenter {
   #addPointPresenter = null;
   #addPointElement = null;
   #currentSortType = DEFAULT_SORT_TYPE;
@@ -38,20 +38,14 @@ export class TripPresenter {
   #pointsModel = null;
   #tripRouteContainer = null;
   #tripSummaryContainer = null;
+
   #emptyPointsListMessage = null;
   #pointsList = new PointsListView();
   #sort = null;
   #tripPointsPresenter = new Map();
   #tripInfo = null;
 
-  constructor(
-    tripRouteContainer,
-    tripSummaryContainer,
-    pointsModel,
-    filtersModel,
-    offersModel,
-    destinationsModel
-  ) {
+  constructor(tripRouteContainer, tripSummaryContainer, pointsModel, filtersModel, offersModel, destinationsModel) {
     this.#tripRouteContainer = tripRouteContainer;
     this.#tripSummaryContainer = tripSummaryContainer;
     this.#pointsModel = pointsModel;
@@ -82,12 +76,7 @@ export class TripPresenter {
   }
 
   init = () => {
-    this.#addPointPresenter = new AddPointPresenter(
-      this.#pointsList,
-      this.#handleViewAction,
-      this.#offersModel,
-      this.#destinationsModel
-    );
+    this.#addPointPresenter = new AddPointPresenter(this.#pointsList, this.#handleViewAction, this.#offersModel, this.#destinationsModel);
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filtersModel.addObserver(this.#handleModelEvent);
@@ -95,7 +84,7 @@ export class TripPresenter {
     this.#renderTripRoute();
     this.#renderTripPointsContainer();
     this.#renderTripInfo();
-  };
+  }
 
   destroy = () => {
     this.#pointsModel.removeObserver(this.#handleModelEvent);
@@ -104,24 +93,18 @@ export class TripPresenter {
     this.#clearTripRoute(true);
     this.#clearTripPointsContainer();
     this.#clearTripInfo();
-  };
+  }
 
   #renderTripInfo = () => {
     if (this.#pointsModel.points.length) {
-      this.#tripInfo = new TripInfoView(
-        this.#pointsModel.getPointsSummaryInfo()
-      );
-      renderElement(
-        this.#tripSummaryContainer,
-        this.#tripInfo,
-        RenderPosition.AFTERBEGIN
-      );
+      this.#tripInfo = new TripInfoView(this.#pointsModel.getPointsSummaryInfo());
+      renderElement(this.#tripSummaryContainer, this.#tripInfo, RenderPosition.AFTERBEGIN);
     }
-  };
+  }
 
   #clearTripInfo = () => {
     removeElement(this.#tripInfo);
-  };
+  }
 
   #renderTripRoute = () => {
     if (!this.points.length) {
@@ -131,7 +114,7 @@ export class TripPresenter {
       this.#renderSort();
       this.#renderTripPoints();
     }
-  };
+  }
 
   #clearTripRoute = (resetSortType = false) => {
     if (this.#addPointPresenter) {
@@ -145,48 +128,40 @@ export class TripPresenter {
     if (resetSortType) {
       this.#currentSortType = DEFAULT_SORT_TYPE;
     }
-  };
+  }
 
   #renderEmptyTripRoute = () => {
-    this.#emptyPointsListMessage = new EmptyPointsListMessageView(
-      emptyPointsListMessageTypes[this.#filtersModel.filter]
-    );
+    this.#emptyPointsListMessage = new EmptyPointsListMessageView(emptyPointsListMessageTypes[this.#filtersModel.filter]);
     renderElement(this.#tripRouteContainer, this.#emptyPointsListMessage);
-  };
+  }
 
   #clearEmptyTripRoute = () => {
     if (this.#emptyPointsListMessage) {
       removeElement(this.#emptyPointsListMessage);
     }
-  };
+  }
 
   #renderSort = () => {
     this.#sort = new SortView(this.#currentSortType);
-    renderElement(
-      this.#tripRouteContainer,
-      this.#sort,
-      RenderPosition.AFTERBEGIN
-    );
+    renderElement(this.#tripRouteContainer, this.#sort, RenderPosition.AFTERBEGIN);
     this.#sort.setSortTypeChange(this.#handleSortChange);
-  };
+  }
 
   #clearSort = () => {
     removeElement(this.#sort);
-  };
+  }
 
-  #renderTripPointsContainer = () =>
-    renderElement(this.#tripRouteContainer, this.#pointsList);
+  #renderTripPointsContainer = () => renderElement(this.#tripRouteContainer, this.#pointsList);
 
   #renderTripPoints = () => {
     for (const point of this.points) {
       this.#renderPoint(point);
     }
-  };
+  }
 
   #clearTripPointsContainer = () => removeElement(this.#pointsList);
 
-  #clearTripPoints = () =>
-    this.#tripPointsPresenter.forEach((presenter) => presenter.destroy());
+  #clearTripPoints = () => this.#tripPointsPresenter.forEach((presenter) => presenter.destroy());
 
   #renderPoint = (pointItem) => {
     const pointPresenter = new PointPresenter(
@@ -198,12 +173,12 @@ export class TripPresenter {
     );
     pointPresenter.init(pointItem);
     this.#tripPointsPresenter.set(pointItem.id, pointPresenter);
-  };
+  }
 
   #handleModeUpdate = () => {
     this.#addPointPresenter.destroy();
     this.#tripPointsPresenter.forEach((presenter) => presenter.resetView());
-  };
+  }
 
   #handleViewAction = async (userActionType, viewUpdateType, updatePoint) => {
     switch (userActionType) {
@@ -216,35 +191,25 @@ export class TripPresenter {
         }
         break;
       case UserActionType.UPDATE_POINT:
-        this.#tripPointsPresenter
-          .get(updatePoint.id)
-          .setViewState(PointPresenterViewState.SAVING);
+        this.#tripPointsPresenter.get(updatePoint.id).setViewState(PointPresenterViewState.SAVING);
         try {
           await this.#pointsModel.updatePoint(viewUpdateType, updatePoint);
         } catch (err) {
-          this.#tripPointsPresenter
-            .get(updatePoint.id)
-            .setViewState(PointPresenterViewState.ABORTING);
+          this.#tripPointsPresenter.get(updatePoint.id).setViewState(PointPresenterViewState.ABORTING);
         }
         break;
       case UserActionType.DELETE_POINT:
-        this.#tripPointsPresenter
-          .get(updatePoint.id)
-          .setViewState(PointPresenterViewState.DELETING);
+        this.#tripPointsPresenter.get(updatePoint.id).setViewState(PointPresenterViewState.DELETING);
         try {
           await this.#pointsModel.deletePoint(viewUpdateType, updatePoint);
         } catch (err) {
-          this.#tripPointsPresenter
-            .get(updatePoint.id)
-            .setViewState(PointPresenterViewState.ABORTING);
+          this.#tripPointsPresenter.get(updatePoint.id).setViewState(PointPresenterViewState.ABORTING);
         }
         break;
       default:
-        throw new Error(
-          `Invalid userActionType value received ${userActionType}`
-        );
+        throw new Error(`Invalid userActionType value received ${userActionType}`);
     }
-  };
+  }
 
   #handleModelEvent = (viewUpdateType, updatedData) => {
     switch (viewUpdateType) {
@@ -269,11 +234,9 @@ export class TripPresenter {
         this.#renderTripInfo();
         break;
       default:
-        throw new Error(
-          `Invalid viewUpdateType value received ${viewUpdateType}`
-        );
+        throw new Error(`Invalid viewUpdateType value received ${viewUpdateType}`);
     }
-  };
+  }
 
   #handleSortChange = (sortType) => {
     if (this.#currentSortType === sortType) {
@@ -286,7 +249,7 @@ export class TripPresenter {
 
     this.#clearTripPoints();
     this.#renderTripPoints();
-  };
+  }
 
   addPoint(addPointElement) {
     this.#addPointElement = addPointElement;
@@ -307,13 +270,13 @@ export class TripPresenter {
       this.#renderEmptyTripRoute();
     }
     this.#addPointElementEnable();
-  };
+  }
 
   #addPointElementDisable = () => {
     this.#addPointElement.disabled = true;
-  };
+  }
 
   #addPointElementEnable = () => {
     this.#addPointElement.disabled = false;
-  };
+  }
 }

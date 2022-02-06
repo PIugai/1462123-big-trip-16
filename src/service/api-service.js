@@ -17,11 +17,10 @@ export class ApiService {
   }) => {
     headers.append('Authorization', this.#authorization);
 
-    const response = await fetch(`${this.#endPoint}/${url}`, {
-      method,
-      body,
-      headers,
-    });
+    const response = await fetch(
+      `${this.#endPoint}/${url}`,
+      {method, body, headers},
+    );
 
     try {
       ApiService.checkStatus(response);
@@ -29,7 +28,7 @@ export class ApiService {
     } catch (err) {
       ApiService.catchError(err);
     }
-  };
+  }
 
   static parseResponse = (response) => response.json();
 
@@ -37,9 +36,9 @@ export class ApiService {
     if (!response.ok) {
       throw new Error(`${response.status}: ${response.statusText}`);
     }
-  };
+  }
 
   static catchError = (err) => {
     throw err;
-  };
+  }
 }

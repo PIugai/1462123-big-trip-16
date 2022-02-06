@@ -977,3 +977,7 @@ main {
 
 .statistics__item:not(:last-child) {
   margin-bottom: 78px; }
+
+.shake {
+  animation: shake 0.6s;
+}

@@ -1,15 +1,15 @@
+import dayjs from 'dayjs';
+import {
+  DATE_RANGE_MINUTES_GAP_MIN,
+  UserActionType,
+  ViewUpdateType,
+} from '../const.js';
 import { EditPointView } from '../view/edit-point-view.js';
 import {
   removeElement,
   renderElement,
   RenderPosition,
 } from '../utils/render.js';
-import {
-  UserActionType,
-  DATE_RANGE_MINUTES_GAP_MIN,
-  ViewUpdateType,
-} from '../const.js';
-import dayjs from 'dayjs';
 
 const DEFAULT_POINT_TYPE = 'taxi';
 
@@ -29,6 +29,7 @@ export class AddPointPresenter {
   #pointsContainer = null;
   #pointEditListItem = null;
   #pointUpdateHandler = null;
+
   #offersModel = null;
   #onDestroyHandler = null;
   #destinations = null;
@@ -42,6 +43,7 @@ export class AddPointPresenter {
   ) {
     this.#pointsContainer = pointsContainer;
     this.#pointUpdateHandler = pointUpdateHandler;
+
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
     this.#destinations = this.#destinationsModel.destinations;
@@ -64,18 +66,18 @@ export class AddPointPresenter {
     };
   };
 
-  init = () => {
+  init = (onDestroyHandler) => {
     if (this.#pointEditListItem !== null) {
       return;
     }
 
-    this.#pointEditListItem = new EditPointView();
+    this.#onDestroyHandler = onDestroyHandler;
     this.#pointEditListItem = new EditPointView(
       this.#getBlankPoint(),
       this.#offersModel,
       this.#destinationsModel
     );
-    this.#pointEditListItem.setSaveClickHandler(this.#handleSaveClick);
+    this.#pointEditListItem.setSaveButtonClickHandler(this.#handleSaveButtonClick);
     this.#pointEditListItem.setCancelClickHandler(this.#handleCancelClick);
 
     renderElement(
@@ -93,7 +95,6 @@ export class AddPointPresenter {
 
     removeElement(this.#pointEditListItem);
     this.#pointEditListItem = null;
-
     document.removeEventListener('keydown', this.#onEscapeKeyDown);
     this.#onDestroyHandler();
   };
@@ -124,7 +125,7 @@ export class AddPointPresenter {
     this.#pointEditListItem.shake(resetFormState);
   };
 
-  #handleSaveClick = (point) => {
+  #handleSaveButtonClick = (point) => {
     this.#pointUpdateHandler(UserActionType.ADD_POINT, ViewUpdateType.MAJOR, {
       id: 0,
       ...point,

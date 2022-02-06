@@ -1,7 +1,14 @@
 import { EditPointView } from '../view/edit-point-view.js';
 import { PointView } from '../view/point-view.js';
-import { removeElement, renderElement, replaceElement } from '../utils/render.js';
-import { UserActionType, ViewUpdateType } from '../const.js';
+import {
+  removeElement,
+  renderElement,
+  replaceElement
+} from '../utils/render.js';
+import {
+  UserActionType,
+  ViewUpdateType
+} from '../const.js';
 
 const Mode = {
   DEFAULT: 'VIEW',
@@ -24,19 +31,15 @@ export class PointPresenter {
   #pointUpdateHandler = null;
   #previousPointListItem = null;
   #previousPointEditListItem = null;
+
   #offersModel = null;
   #destinationsModel = null;
 
-  constructor(
-    pointsContainer,
-    pointUpdateHandler,
-    modeUpdateHandler,
-    offersModel,
-    destinationsModel
-  ) {
+  constructor(pointsContainer, pointUpdateHandler, modeUpdateHandler, offersModel, destinationsModel) {
     this.#pointsContainer = pointsContainer;
     this.#pointUpdateHandler = pointUpdateHandler;
     this.#modeUpdateHandler = modeUpdateHandler;
+
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
   }
@@ -47,42 +50,24 @@ export class PointPresenter {
 
     this.#pointItem = pointItem;
     this.#pointListItem = new PointView(pointItem);
-    this.#pointEditListItem = new EditPointView(
-      pointItem,
-      this.#offersModel,
-      this.#destinationsModel
-    );
+    this.#pointEditListItem = new EditPointView(pointItem, this.#offersModel, this.#destinationsModel);
 
     this.#pointListItem.setRollupButtonClickHandler(() => {
       this.#replacePointToForm();
     });
 
-    this.#pointListItem.setFavoriteButtonClickHandler(
-      this.#handleFavoriteButtonClick
-    );
+    this.#pointListItem.setFavouriteClickHandler(this.#handleFavouriteClick);
 
-    this.#pointEditListItem.setSaveButtonClickHandler((updatedPointItem) => {
-      this.#pointUpdateHandler(
-        UserActionType.UPDATE_POINT,
-        ViewUpdateType.MINOR,
-        updatedPointItem
-      );
-      this.#replaceFormToPoint();
-    });
+    this.#pointEditListItem.setSaveClickHandler(this.#handleSaveClick);
 
     this.#pointEditListItem.setRollupButtonClickHandler(() => {
       this.#pointEditListItem.reset(this.#pointItem);
       this.#replaceFormToPoint();
     });
 
-    this.#pointEditListItem.setDeleteButtonClickHandler(
-      this.#handleDeleteButtonClick
-    );
+    this.#pointEditListItem.setDeleteButtonClickHandler(this.#handleDeleteClick);
 
-    if (
-      this.#previousPointListItem === null ||
-      this.#previousPointEditListItem === null
-    ) {
+    if (this.#previousPointListItem === null || this.#previousPointEditListItem === null) {
       renderElement(this.#pointsContainer, this.#pointListItem);
       return;
     }
@@ -94,19 +79,19 @@ export class PointPresenter {
       this.#pointEditListItem.reset(this.#pointItem);
       this.#replaceFormToPoint();
     }
-  };
+  }
 
   destroy = () => {
     removeElement(this.#pointListItem);
     removeElement(this.#pointEditListItem);
-  };
+  }
 
   #reInit = () => {
     if (this.#mode === Mode.DEFAULT) {
       replaceElement(this.#pointListItem, this.#previousPointListItem);
     }
     if (this.#mode === Mode.EDIT) {
-      replaceElement(this.#pointEditListItem, this.#previousPointEditListItem);
+      replaceElement(this.#pointListItem, this.#previousPointEditListItem);
       this.#mode = Mode.DEFAULT;
     }
 
@@ -115,7 +100,7 @@ export class PointPresenter {
 
     this.#previousPointListItem = null;
     this.#previousPointEditListItem = null;
-  };
+  }
 
   setViewState = (state) => {
     if (this.#mode === Mode.DEFAULT) {
@@ -154,20 +139,20 @@ export class PointPresenter {
       default:
         throw new Error(`Invalid state value received ${state}`);
     }
-  };
+  }
 
   #replacePointToForm = () => {
     replaceElement(this.#pointEditListItem, this.#pointListItem);
     document.addEventListener('keydown', this.#onEscapeKeyDown);
     this.#modeUpdateHandler();
     this.#mode = Mode.EDIT;
-  };
+  }
 
   #replaceFormToPoint = () => {
     replaceElement(this.#pointListItem, this.#pointEditListItem);
     document.removeEventListener('keydown', this.#onEscapeKeyDown);
     this.#mode = Mode.DEFAULT;
-  };
+  }
 
   #onEscapeKeyDown = (evt) => {
     if (evt.key === 'Escape') {
@@ -176,27 +161,30 @@ export class PointPresenter {
       this.#replaceFormToPoint();
       document.removeEventListener('keydown', this.#onEscapeKeyDown);
     }
-  };
+  }
 
-  #handleFavoriteButtonClick = () => {
-    this.#handleFavoriteButtonClick(
+  #handleFavouriteClick = () => {
+    this.#pointUpdateHandler(
       UserActionType.UPDATE_POINT,
       ViewUpdateType.PATCH,
-      { ...this.#pointItem, isFavorite: !this.#pointItem.isFavorite }
+      {...this.#pointItem, isFavorite: !this.#pointItem.isFavorite}
     );
-  };
+  }
 
-  #removeEditPoint = () => {
-    removeElement(this.#pointEditListItem);
-  };
+  #handleSaveClick = ((updatedPointItem) => {
+    this.#pointUpdateHandler(
+      UserActionType.UPDATE_POINT,
+      ViewUpdateType.MINOR,
+      updatedPointItem
+    );
+  });
 
-  #handleDeleteButtonClick = () => {
-    this.#removeEditPoint();
+  #handleDeleteClick = () => {
     this.#pointUpdateHandler(
       UserActionType.DELETE_POINT,
       ViewUpdateType.MINOR,
       this.#pointItem
     );
     document.removeEventListener('keydown', this.#onEscapeKeyDown);
-  };
+  }
 }

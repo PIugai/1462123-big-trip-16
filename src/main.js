@@ -1,42 +1,37 @@
-import {
-  API_AUTHORIZATION,
-  API_END_POINT
-} from './config.js';
+import { API_AUTHORIZATION, API_END_POINT } from './config.js';
 import { DestinationsModel } from './model/destinations-model.js';
 import { DestinationApiService } from './service/destination-api-service.js';
 import { FiltersModel } from './model/filters-model.js';
 import { FiltersPresenter } from './presenter/filters-presenter.js';
-import {
-  SiteMenuItems,
-  ServiceLoadUpdateType
-} from './const.js';
+import { HeaderMenuView } from './view/header-menu-view.js';
+import { HeaderMenuItems, ServiceLoadUpdateType } from './const.js';
 import { LoadingMessageView } from './view/loading-message-view.js';
 import { OfferApiService } from './service/offer-api-service.js';
 import { OffersModel } from './model/offers-model.js';
 import { PointApiService } from './service/point-api-service.js';
 import { PointsModel } from './model/points-model.js';
 import {
-  renderElement,
   removeElement,
+  renderElement,
   RenderPosition,
 } from './utils/render.js';
 import { ServiceErrorMessageView } from './view/service-error-message-view.js';
-import { SiteMenuView } from './view/site-menu-view.js';
 import { StatisticsView } from './view/statistics-view.js';
-import { TripPresenter } from './presenter/trip-presenter.js';
+import { TripRoutePresenter } from './presenter/trip-route-presenter.js';
 import { TripInfoView } from './view/trip-info-view.js';
 
 const headerElement = document.querySelector('.page-header');
-const tripControlsNavigationElement = headerElement.querySelector(
-  '.trip-controls__navigation',
+const navigationContainerElement = headerElement.querySelector(
+  '.trip-controls__navigation'
 );
-const tripControlsFiltersElement = headerElement.querySelector(
-  '.trip-controls__filters',
+const filtersContainerElement = headerElement.querySelector(
+  '.trip-controls__filters'
 );
 const tripInfoContainerElement = headerElement.querySelector('.trip-main');
+
 const mainElement = document.querySelector('.page-main');
 const bodyContainerElement = mainElement.querySelector('.page-body__container');
-const tripEventsElement = mainElement.querySelector('.trip-events');
+const eventsContainerElement = mainElement.querySelector('.trip-events');
 const eventAddButtonElement = document.querySelector(
   '.trip-main__event-add-btn'
 );
@@ -71,8 +66,8 @@ const destinationsModel = new DestinationsModel(
 destinationsModel.addObserver(handleCriticalServiceLoadState);
 criticalServices.push('destinationsModel');
 
-const tripRoutePresenter = new TripPresenter(
-  tripEventsElement,
+const tripRoutePresenter = new TripRoutePresenter(
+  eventsContainerElement,
   tripInfoContainerElement,
   pointsModel,
   filtersModel,
@@ -80,18 +75,18 @@ const tripRoutePresenter = new TripPresenter(
   destinationsModel
 );
 const filtersPresenter = new FiltersPresenter(
-  tripControlsFiltersElement,
+  filtersContainerElement,
   filtersModel,
   pointsModel
 );
-const headerMenuComponent = new SiteMenuView();
+const headerMenuComponent = new HeaderMenuView();
 
 let statisticsComponent = null;
 let tripInfoComponent = null;
 
 const handleHeaderMenuClick = (headerMenuItem) => {
   switch (headerMenuItem) {
-    case SiteMenuItems.TRIP_ROUTE:
+    case HeaderMenuItems.TRIP_ROUTE:
       tripRoutePresenter.destroy();
       tripRoutePresenter.init();
       filtersPresenter.destroy();
@@ -99,7 +94,7 @@ const handleHeaderMenuClick = (headerMenuItem) => {
       removeElement(statisticsComponent);
       removeElement(tripInfoComponent);
       break;
-    case SiteMenuItems.STATISTICS:
+    case HeaderMenuItems.STATISTICS:
       filtersPresenter.destroy();
       tripRoutePresenter.destroy();
       tripInfoComponent = new TripInfoView(pointsModel.getPointsSummaryInfo());
@@ -124,8 +119,8 @@ const handleHeaderMenuClick = (headerMenuItem) => {
 headerMenuComponent.setHeaderMenuClickHandler(handleHeaderMenuClick);
 
 const showTripRouteTab = () => {
-  headerMenuComponent.setMenuItem(SiteMenuItems.TRIP_ROUTE);
-  handleHeaderMenuClick(SiteMenuItems.TRIP_ROUTE);
+  headerMenuComponent.setMenuItem(HeaderMenuItems.TRIP_ROUTE);
+  handleHeaderMenuClick(HeaderMenuItems.TRIP_ROUTE);
 };
 
 const handleAddPointClick = (evt) => {
@@ -137,14 +132,14 @@ const handleAddPointClick = (evt) => {
 eventAddButtonElement.addEventListener('click', handleAddPointClick);
 
 const loadingMessageComponent = new LoadingMessageView();
-renderElement(tripEventsElement, loadingMessageComponent);
+renderElement(eventsContainerElement, loadingMessageComponent);
 
 const handleServiceLoadingError = () => {
   removeElement(loadingMessageComponent);
   renderElement(bodyContainerElement, new ServiceErrorMessageView());
 };
 
-renderElement(tripControlsNavigationElement, headerMenuComponent);
+renderElement(navigationContainerElement, headerMenuComponent);
 filtersPresenter.init();
 lockHeader();
 
