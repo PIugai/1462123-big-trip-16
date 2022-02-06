@@ -1,11 +1,11 @@
-import {AbstractObservable} from '../utils/abstract-observable.js';
+import { AbstractObservable } from '../utils/abstract-observable.js';
 import dayjs from 'dayjs';
 import {
   FilterType,
   ViewUpdateType
 } from '../const.js';
-import {filter} from '../utils/filter.js';
-import {sortPointsByDateDesc} from '../utils/sort-points.js';
+import { filter } from '../utils/filter.js';
+import { sortPointsByDateDesc } from '../utils/sort-points.js';
 
 const DIFFERENT_MONTHS_DATE_FORMAT = 'D MMM';
 const EQUAL_MONTHS_DATE_FROM_FORMAT = 'MMM D';
@@ -39,7 +39,7 @@ class PointsModel extends AbstractObservable {
     const updateElementIndex = this.#points.findIndex((item) => item.id === updatedPoint.id);
 
     if (updateElementIndex === -1) {
-      throw new Error('Can\'t update unexisting point');
+      throw new Error('Unable to update point');
     }
     try {
       const response = await this.#apiService.updatePoint(updatedPoint);
@@ -53,7 +53,7 @@ class PointsModel extends AbstractObservable {
 
       this._notify(updateType, updatedPointFromServer);
     } catch (err) {
-      throw new Error('Can\'t update point');
+      throw new Error('Unable to update point');
     }
   };
 
@@ -69,7 +69,7 @@ class PointsModel extends AbstractObservable {
 
       this._notify(updateType, addedPointFromServer);
     } catch (err) {
-      throw new Error('Can\'t add point');
+      throw new Error('Unable to add a point');
     }
   }
 
@@ -77,7 +77,7 @@ class PointsModel extends AbstractObservable {
     const index = this.#points.findIndex((task) => task.id === deletedPoint.id);
 
     if (index === -1) {
-      throw new Error('Can\'t delete unexisting point');
+      throw new Error('Unable to delete non-existent point');
     }
 
     try {
@@ -89,7 +89,7 @@ class PointsModel extends AbstractObservable {
 
       this._notify(updateType);
     } catch (err) {
-      throw new Error('Can\'t delete point');
+      throw new Error('Unable to delete point');
     }
   }
 

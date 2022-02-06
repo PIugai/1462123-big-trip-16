@@ -8,7 +8,7 @@ export class AbstractView {
 
   constructor() {
     if (new.target === AbstractView) {
-      throw new Error('Can\'t instantiate an Abstract class');
+      throw new Error('Unable to instantiate an Abstract class');
     }
   }
 

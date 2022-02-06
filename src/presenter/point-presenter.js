@@ -7,19 +7,10 @@ import {
 } from '../utils/render.js';
 import {
   UserActionType,
-  ViewUpdateType
+  ViewUpdateType,
+  Mode,
+  State
 } from '../const.js';
-
-const Mode = {
-  DEFAULT: 'VIEW',
-  EDIT: 'EDIT',
-};
-
-export const State = {
-  SAVING: 'SAVING',
-  DELETING: 'DELETING',
-  ABORTING: 'ABORTING',
-};
 
 export class PointPresenter {
   #mode = Mode.DEFAULT;

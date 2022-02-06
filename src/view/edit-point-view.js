@@ -5,7 +5,7 @@ import {
   pointTypes
 } from '../const.js';
 import flatpickr from 'flatpickr';
-import {SmartView} from './smart-view.js';
+import { SmartView } from './smart-view.js';
 
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 

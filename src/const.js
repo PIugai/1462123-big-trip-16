@@ -61,3 +61,14 @@ export const HeaderMenuItems = {
   TRIP_ROUTE: 'TRIP_ROUTE',
   STATISTICS: 'STATISTICS',
 };
+
+export const Mode = {
+  DEFAULT: 'VIEW',
+  EDIT: 'EDIT',
+};
+
+export const State = {
+  SAVING: 'SAVING',
+  DELETING: 'DELETING',
+  ABORTING: 'ABORTING',
+};

@@ -1,6 +1,6 @@
-import {AbstractView} from './abstract-view.js';
+import { AbstractView } from './abstract-view.js';
 import dayjs from 'dayjs';
-import {getFormattedDatesDiff} from '../utils/dates-diff.js';
+import { getFormattedDatesDiff } from '../utils/dates-diff.js';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm';

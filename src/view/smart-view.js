@@ -1,6 +1,6 @@
 import { AbstractView } from './abstract-view.js';
 
-class SmartView extends AbstractView {
+export class SmartView extends AbstractView {
   _data = {};
 
   updateData = (update, isJustDataUpdating = false) => {
@@ -35,5 +35,3 @@ class SmartView extends AbstractView {
     );
   };
 }
-
-export { SmartView };

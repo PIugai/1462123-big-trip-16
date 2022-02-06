@@ -1,5 +1,5 @@
-import {AbstractView} from './abstract-view.js';
-import {FilterType} from '../const';
+import { AbstractView } from './abstract-view.js';
+import { FilterType } from '../const';
 
 const createFiltersTemplate = (currentFilterType, filteredPointsCountInfo) => (
   `<form class="trip-filters" action="#" method="get">

@@ -1,10 +1,9 @@
-import {AddPointPresenter} from './add-point-presenter.js';
+import { AddPointPresenter } from './add-point-presenter.js';
 import { EmptyPointsListMessageView } from '../view/empty-points-list-message-view.js';
 import {filter} from '../utils/filter.js';
 import { PointsListView } from '../view/points-list-view.js';
 import {
   PointPresenter,
-  State as PointPresenterViewState
 } from './point-presenter.js';
 import {
   removeElement,
@@ -17,6 +16,7 @@ import {
   emptyPointsListMessageTypes,
   FilterType,
   SortType,
+  State as PointPresenterViewState,
   UserActionType,
   ViewUpdateType
 } from '../const.js';
