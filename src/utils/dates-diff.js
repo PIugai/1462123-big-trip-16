@@ -15,15 +15,15 @@ export const getFormattedDuration = (diffInMilliseconds) => {
   if (datesDiffDuration.days() > 0) {
     formattedDiff.push(`${formatNumberInTwoDigits(datesDiffDuration.days())}D`);
     formattedDiff.push(
-      `${formatNumberInTwoDigits(datesDiffDuration.hours())}H`
+      `${formatNumberInTwoDigits(datesDiffDuration.hours())}H`,
     );
   } else if (datesDiffDuration.hours() > 0) {
     formattedDiff.push(
-      `${formatNumberInTwoDigits(datesDiffDuration.hours())}H`
+      `${formatNumberInTwoDigits(datesDiffDuration.hours())}H`,
     );
   }
   formattedDiff.push(
-    `${formatNumberInTwoDigits(datesDiffDuration.minutes())}M`
+    `${formatNumberInTwoDigits(datesDiffDuration.minutes())}M`,
   );
 
   return formattedDiff.join(' ');

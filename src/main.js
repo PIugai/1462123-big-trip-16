@@ -16,7 +16,7 @@ import { PointApiService } from './service/point-api-service.js';
 import { PointsModel } from './model/points-model.js';
 import {
   removeElement,
-  renderElement,
+  renderElement
 } from './utils/render.js';
 import { ServiceErrorMessageView } from './view/service-error-message-view.js';
 import { StatisticsView } from './view/statistics-view.js';
@@ -25,10 +25,10 @@ import { TripInfoView } from './view/trip-info-view.js';
 
 const headerElement = document.querySelector('.page-header');
 const navigationContainerElement = headerElement.querySelector(
-  '.trip-controls__navigation'
+  '.trip-controls__navigation',
 );
 const filtersContainerElement = headerElement.querySelector(
-  '.trip-controls__filters'
+  '.trip-controls__filters',
 );
 const tripInfoContainerElement = headerElement.querySelector('.trip-main');
 
@@ -36,7 +36,7 @@ const mainElement = document.querySelector('.page-main');
 const bodyContainerElement = mainElement.querySelector('.page-body__container');
 const eventsContainerElement = mainElement.querySelector('.trip-events');
 const eventAddButtonElement = document.querySelector(
-  '.trip-main__event-add-btn'
+  '.trip-main__event-add-btn',
 );
 
 const lockHeader = () => {
@@ -55,16 +55,16 @@ const criticalServices = [];
 let loadedCriticalServicesCount = 0;
 
 const pointsModel = new PointsModel(
-  new PointApiService(API_END_POINT, API_AUTHORIZATION)
+  new PointApiService(API_END_POINT, API_AUTHORIZATION),
 );
 const filtersModel = new FiltersModel();
 const offersModel = new OffersModel(
-  new OfferApiService(API_END_POINT, API_AUTHORIZATION)
+  new OfferApiService(API_END_POINT, API_AUTHORIZATION),
 );
 offersModel.addObserver(handleCriticalServiceLoadState);
 criticalServices.push('offersModel');
 const destinationsModel = new DestinationsModel(
-  new DestinationApiService(API_END_POINT, API_AUTHORIZATION)
+  new DestinationApiService(API_END_POINT, API_AUTHORIZATION),
 );
 destinationsModel.addObserver(handleCriticalServiceLoadState);
 criticalServices.push('destinationsModel');
@@ -75,12 +75,12 @@ const tripRoutePresenter = new TripRoutePresenter(
   pointsModel,
   filtersModel,
   offersModel,
-  destinationsModel
+  destinationsModel,
 );
 const filtersPresenter = new FiltersPresenter(
   filtersContainerElement,
   filtersModel,
-  pointsModel
+  pointsModel,
 );
 const headerMenuComponent = new HeaderMenuView();
 
@@ -104,7 +104,7 @@ const handleHeaderMenuClick = (headerMenuItem) => {
       renderElement(
         tripInfoContainerElement,
         tripInfoComponent,
-        RenderPosition.AFTERBEGIN
+        RenderPosition.AFTERBEGIN,
       );
       statisticsComponent = new StatisticsView(pointsModel.points);
       renderElement(bodyContainerElement, statisticsComponent);
@@ -166,7 +166,7 @@ function handleCriticalServiceLoadState(viewUpdateType) {
       break;
     default:
       throw new Error(
-        `Invalid viewUpdateType value received ${viewUpdateType}`
+        `Invalid viewUpdateType value received ${viewUpdateType}`,
       );
   }
 }
