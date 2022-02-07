@@ -57,7 +57,7 @@ export const emptyPointsListMessageTypes = {
   [FilterType.FUTURE]: 'There are no future events now',
 };
 
-export const HeaderMenuItems = {
+export const HeaderMenuType = {
   TRIP_ROUTE: 'TRIP_ROUTE',
   STATISTICS: 'STATISTICS',
 };

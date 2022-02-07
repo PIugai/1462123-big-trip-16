@@ -1,17 +1,17 @@
 import AbstractView from './abstract-view.js';
-import { HeaderMenuItems } from '../const.js';
+import { HeaderMenuType } from '../const.js';
 
 const createHeaderMenuTemplate = (currentMenuItem) => (
   `<nav class="trip-controls__trip-tabs  trip-tabs">
-    <a class="trip-tabs__btn ${currentMenuItem === HeaderMenuItems.TRIP_ROUTE ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuItems.TRIP_ROUTE}">Table</a>
-    <a class="trip-tabs__btn ${currentMenuItem === HeaderMenuItems.STATISTICS ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuItems.STATISTICS}">Stats</a>
+    <a class="trip-tabs__btn ${currentMenuItem === HeaderMenuType.TRIP_ROUTE ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuType.TRIP_ROUTE}">Table</a>
+    <a class="trip-tabs__btn ${currentMenuItem === HeaderMenuType.STATISTICS ? 'trip-tabs__btn--active' : ''}" href="#" data-menu-item="${HeaderMenuType.STATISTICS}">Stats</a>
   </nav>`
 );
 
 export default class HeaderMenuView extends AbstractView {
   #currentMenuItem = null;
 
-  constructor(currentMenuItem = HeaderMenuItems.TRIP_ROUTE) {
+  constructor(currentMenuItem = HeaderMenuType.TRIP_ROUTE) {
     super();
 
     this.#currentMenuItem = currentMenuItem;
@@ -22,7 +22,7 @@ export default class HeaderMenuView extends AbstractView {
   }
 
   setMenuItem = (menuItem) => {
-    if (typeof HeaderMenuItems[menuItem] === 'undefined') {
+    if (typeof HeaderMenuType[menuItem] === 'undefined') {
       return;
     }
 

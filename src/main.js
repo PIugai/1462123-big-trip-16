@@ -5,7 +5,7 @@ import FiltersModel from './model/filters-model.js';
 import FiltersPresenter from './presenter/filters-presenter.js';
 import HeaderMenuView from './view/header-menu-view.js';
 import {
-  HeaderMenuItems,
+  HeaderMenuType,
   ServiceLoadUpdateType,
   RenderPosition
 } from './const.js';
@@ -89,7 +89,7 @@ let tripInfoComponent = null;
 
 const handleHeaderMenuClick = (headerMenuItem) => {
   switch (headerMenuItem) {
-    case HeaderMenuItems.TRIP_ROUTE:
+    case HeaderMenuType.TRIP_ROUTE:
       tripRoutePresenter.destroy();
       tripRoutePresenter.init();
       filtersPresenter.destroy();
@@ -97,14 +97,14 @@ const handleHeaderMenuClick = (headerMenuItem) => {
       removeElement(statisticsComponent);
       removeElement(tripInfoComponent);
       break;
-    case HeaderMenuItems.STATISTICS:
+    case HeaderMenuType.STATISTICS:
       filtersPresenter.destroy();
       tripRoutePresenter.destroy();
       tripInfoComponent = new TripInfoView(pointsModel.getPointsSummaryInfo());
       renderElement(
         tripInfoContainerElement,
         tripInfoComponent,
-        RenderPosition.AFTERBEGIN,
+        RenderPosition.AFTERBEGIN
       );
       statisticsComponent = new StatisticsView(pointsModel.points);
       renderElement(bodyContainerElement, statisticsComponent);
@@ -122,8 +122,8 @@ const handleHeaderMenuClick = (headerMenuItem) => {
 headerMenuComponent.setHeaderMenuClickHandler(handleHeaderMenuClick);
 
 const showTripRouteTab = () => {
-  headerMenuComponent.setMenuItem(HeaderMenuItems.TRIP_ROUTE);
-  handleHeaderMenuClick(HeaderMenuItems.TRIP_ROUTE);
+  headerMenuComponent.setMenuItem(HeaderMenuType.TRIP_ROUTE);
+  handleHeaderMenuClick(HeaderMenuType.TRIP_ROUTE);
 };
 
 const addPointClickHandler = (evt) => {
