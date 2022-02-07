@@ -1,4 +1,4 @@
-import { AbstractObservable } from '../utils/abstract-observable.js';
+import AbstractObservable from '../utils/abstract-observable.js';
 import dayjs from 'dayjs';
 import {
   FilterType,

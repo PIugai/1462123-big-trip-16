@@ -1,5 +1,5 @@
 import { ApiMethod } from '../const.js';
-import { ApiService } from './api-service.js';
+import ApiService from './api-service.js';
 import dayjs from 'dayjs';
 
 export default class PointApiService extends ApiService {

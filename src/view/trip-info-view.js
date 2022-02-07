@@ -1,4 +1,4 @@
-import { AbstractView } from './abstract-view.js';
+import AbstractView from './abstract-view.js';
 
 const createTripInfoTemplate = (tripInfo) => {
   const { title, dates, cost } = tripInfo;

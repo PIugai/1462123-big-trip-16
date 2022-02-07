@@ -1,5 +1,5 @@
-import { EditPointView } from '../view/edit-point-view.js';
-import { PointView } from '../view/point-view.js';
+import EditPointView from '../view/edit-point-view.js';
+import PointView from '../view/point-view.js';
 import {
   removeElement,
   renderElement,

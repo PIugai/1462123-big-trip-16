@@ -1,4 +1,4 @@
-import { AbstractObservable } from '../utils/abstract-observable.js';
+import AbstractObservable from '../utils/abstract-observable.js';
 import { ServiceLoadUpdateType } from '../const.js';
 
 export default class DestinationsModel extends AbstractObservable {

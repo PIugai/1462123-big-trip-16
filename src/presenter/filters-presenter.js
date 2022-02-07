@@ -1,4 +1,4 @@
-import { FiltersView } from '../view/filters-view.js';
+import FiltersView from '../view/filters-view.js';
 import {
   FilterType,
   ViewUpdateType

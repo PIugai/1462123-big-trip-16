@@ -1,4 +1,4 @@
-import { AbstractView } from './abstract-view.js';
+import AbstractView from './abstract-view.js';
 import dayjs from 'dayjs';
 import { getFormattedDatesDiff } from '../utils/dates-diff.js';
 import {

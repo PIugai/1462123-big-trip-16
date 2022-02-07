@@ -6,7 +6,7 @@ import {
   DEFAULT_POINT_TYPE,
   RenderPosition,
 } from '../const.js';
-import { EditPointView } from '../view/edit-point-view.js';
+import EditPointView from '../view/edit-point-view.js';
 import {
   removeElement,
   renderElement,

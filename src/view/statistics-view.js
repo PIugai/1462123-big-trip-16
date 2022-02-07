@@ -3,8 +3,8 @@ import {
   getFormattedDuration
 } from '../utils/dates-diff.js';
 import { pointTypes } from '../const.js';
-import { ChartRender } from "../utils/render-chart.js";
-import { SmartView } from './smart-view.js';
+import ChartRender from '../utils/chart-render.js';
+import SmartView from './smart-view.js';
 import { sortObjects } from '../utils/sort-objects.js';
 
 const getPointTypeName = (type) => type.toString().toUpperCase();

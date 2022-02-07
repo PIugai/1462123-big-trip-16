@@ -1,4 +1,4 @@
-import { AbstractView } from './abstract-view';
+import AbstractView from './abstract-view';
 
 const loadingMessageTemplate = () =>
   '<p class="trip-events__msg">Loading... Please wait.</p>';

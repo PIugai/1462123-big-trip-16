@@ -1,15 +1,13 @@
-import { AddPointPresenter } from './add-point-presenter.js';
-import { EmptyPointsListMessageView } from '../view/empty-points-list-message-view.js';
-import {filter} from '../utils/filter.js';
-import { PointsListView } from '../view/points-list-view.js';
-import {
-  PointPresenter,
-} from './point-presenter.js';
+import AddPointPresenter from './add-point-presenter.js';
+import EmptyPointsListMessageView from '../view/empty-points-list-message-view.js';
+import { filter } from '../utils/filter.js';
+import PointsListView from '../view/points-list-view.js';
+import PointPresenter from './point-presenter.js';
 import {
   removeElement,
   renderElement,
 } from '../utils/render.js';
-import { SortView } from '../view/sort-view.js';
+import SortView from '../view/sort-view.js';
 import {
   DEFAULT_SORT_TYPE,
   emptyPointsListMessageTypes,
@@ -25,7 +23,7 @@ import {
   sortPointsByPriceDesc,
   sortPointsByTimeDesc
 } from '../utils/sort-points.js';
-import { TripInfoView } from '../view/trip-info-view.js';
+import TripInfoView from '../view/trip-info-view.js';
 
 export default class TripRoutePresenter {
   #addPointPresenter = null;

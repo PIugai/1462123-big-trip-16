@@ -1,4 +1,4 @@
-import { AbstractView } from './abstract-view.js';
+import AbstractView from './abstract-view.js';
 import { FilterType } from '../const';
 
 const createFiltersTemplate = (currentFilterType, filteredPointsCountInfo) => (
