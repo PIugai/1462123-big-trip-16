@@ -74,7 +74,9 @@ export default class AddPointPresenter {
       this.#offersModel,
       this.#destinationsModel
     );
-    this.#pointEditListItem.setSaveButtonClickHandler(this.#handleSaveButtonClick);
+    this.#pointEditListItem.setSaveButtonClickHandler(
+      this.#handleSaveButtonClick
+    );
     this.#pointEditListItem.setCancelClickHandler(this.#handleCancelClick);
 
     renderElement(
@@ -82,7 +84,7 @@ export default class AddPointPresenter {
       this.#pointEditListItem,
       RenderPosition.AFTERBEGIN
     );
-    document.addEventListener('keydown', this.#handleOnEscapeKeyDown);
+    document.addEventListener('keydown', this.#onEscapeKeyDownHandler);
   };
 
   destroy = () => {
@@ -92,11 +94,11 @@ export default class AddPointPresenter {
 
     removeElement(this.#pointEditListItem);
     this.#pointEditListItem = null;
-    document.removeEventListener('keydown', this.#handleOnEscapeKeyDown);
+    document.removeEventListener('keydown', this.#onEscapeKeyDownHandler);
     this.#onDestroyHandler();
   };
 
-  #handleOnEscapeKeyDown = (evt) => {
+  #onEscapeKeyDownHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       this.destroy();
