@@ -3,7 +3,7 @@ import {
   getFormattedDuration
 } from '../utils/dates-diff.js';
 import { pointTypes } from '../const.js';
-import { RenderChart } from '../utils/render-chart.js';
+import { ChartRender } from "../utils/render-chart.js";
 import { SmartView } from './smart-view.js';
 import { sortObjects } from '../utils/sort-objects.js';
 
@@ -73,7 +73,7 @@ const getFormattedTypeValues = (val) => `${val}x`;
 
 const renderMoneyChart = (container, points) => {
   const moneyChartData = getMoneyChartData(points);
-  return new RenderChart().getInstance(
+  return new ChartRender().getInstance(
     container,
     moneyChartData.map((item) => item.label),
     moneyChartData.map((item) => item.value),
@@ -84,7 +84,7 @@ const renderMoneyChart = (container, points) => {
 
 const renderTypeChart = (container, points) => {
   const typeChartData = getTypeChartData(points);
-  return new RenderChart().getInstance(
+  return new ChartRender().getInstance(
     container,
     typeChartData.map((item) => item.label),
     typeChartData.map((item) => item.value),
@@ -95,7 +95,7 @@ const renderTypeChart = (container, points) => {
 
 const renderTimeChart = (container, points) => {
   const timeChartData = getTimeChartData(points);
-  return new RenderChart().getInstance(
+  return new ChartRender().getInstance(
     container,
     timeChartData.map((item) => item.label),
     timeChartData.map((item) => item.value),
