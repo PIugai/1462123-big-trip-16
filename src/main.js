@@ -126,13 +126,13 @@ const showTripRouteTab = () => {
   handleHeaderMenuClick(HeaderMenuItems.TRIP_ROUTE);
 };
 
-const handleAddPointClick = (evt) => {
+const addPointClickHandler = (evt) => {
   evt.preventDefault();
   showTripRouteTab();
   tripRoutePresenter.addPoint(evt.target);
 };
 
-eventAddButtonElement.addEventListener('click', handleAddPointClick);
+eventAddButtonElement.addEventListener('click', addPointClickHandler);
 
 const loadingMessageComponent = new LoadingMessageView();
 renderElement(eventsContainerElement, loadingMessageComponent);
