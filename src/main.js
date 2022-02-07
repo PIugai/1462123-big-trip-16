@@ -104,7 +104,7 @@ const handleHeaderMenuClick = (headerMenuItem) => {
       renderElement(
         tripInfoContainerElement,
         tripInfoComponent,
-        RenderPosition.AFTERBEGIN
+        RenderPosition.AFTERBEGIN,
       );
       statisticsComponent = new StatisticsView(pointsModel.points);
       renderElement(bodyContainerElement, statisticsComponent);
