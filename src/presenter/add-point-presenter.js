@@ -24,7 +24,7 @@ const BLANK_POINT = {
   isFavorite: false,
 };
 
-export class AddPointPresenter {
+export default class AddPointPresenter {
   #pointsContainer = null;
   #pointEditListItem = null;
   #pointUpdateHandler = null;

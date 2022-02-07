@@ -9,7 +9,7 @@ import {
   replaceElement
 } from '../utils/render.js';
 
-export class FiltersPresenter {
+export default class FiltersPresenter {
   #filterContainer = null;
   #filtersModel = null;
   #pointsModel = null;

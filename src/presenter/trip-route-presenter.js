@@ -27,7 +27,7 @@ import {
 } from '../utils/sort-points.js';
 import { TripInfoView } from '../view/trip-info-view.js';
 
-export class TripRoutePresenter {
+export default class TripRoutePresenter {
   #addPointPresenter = null;
   #addPointElement = null;
   #currentSortType = DEFAULT_SORT_TYPE;

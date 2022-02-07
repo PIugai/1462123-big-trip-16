@@ -2,7 +2,7 @@ import { Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ChartSettings } from '../const.js';
 
-export class ChartRender {
+export default class ChartRender {
   #settings = null;
 
   constructor(settings = ChartSettings) {

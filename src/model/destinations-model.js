@@ -1,7 +1,7 @@
 import { AbstractObservable } from '../utils/abstract-observable.js';
 import { ServiceLoadUpdateType } from '../const.js';
 
-export class DestinationsModel extends AbstractObservable {
+export default class DestinationsModel extends AbstractObservable {
   #apiService = null;
   #destinations = [];
 

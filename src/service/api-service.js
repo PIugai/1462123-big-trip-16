@@ -1,6 +1,6 @@
 import { ApiMethod } from '../const.js';
 
-export class ApiService {
+export default class ApiService {
   #endPoint = null;
   #authorization = null;
 

@@ -121,7 +121,7 @@ const createStatisticsTemplate = () => (
   </section>`
 );
 
-export class StatisticsView extends SmartView {
+export default class StatisticsView extends SmartView {
   #moneyChart = null;
   #typeChart = null;
   #timeChart = null;

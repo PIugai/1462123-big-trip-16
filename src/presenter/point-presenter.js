@@ -12,7 +12,7 @@ import {
   State
 } from '../const.js';
 
-export class PointPresenter {
+export default class PointPresenter {
   #mode = Mode.DEFAULT;
   #modeUpdateHandler = null;
   #pointsContainer = null;

@@ -16,7 +16,7 @@ const createTripInfoTemplate = (tripInfo) => {
   </section>`;
 };
 
-export class TripInfoView extends AbstractView {
+export default class TripInfoView extends AbstractView {
   #tripInfo = null;
 
   constructor(tripInfo) {

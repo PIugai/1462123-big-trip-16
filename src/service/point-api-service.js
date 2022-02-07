@@ -2,7 +2,7 @@ import { ApiMethod } from '../const.js';
 import { ApiService } from './api-service.js';
 import dayjs from 'dayjs';
 
-export class PointApiService extends ApiService {
+export default class PointApiService extends ApiService {
   get points() {
     return this.load({url: 'points'})
       .then(ApiService.parseResponse);

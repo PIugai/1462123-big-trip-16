@@ -1,7 +1,7 @@
 import { AbstractObservable } from '../utils/abstract-observable.js';
 import { ServiceLoadUpdateType } from '../const.js';
 
-export class OffersModel extends AbstractObservable {
+export default class OffersModel extends AbstractObservable {
   #apiService = null;
   #offers = [];
 
@@ -18,7 +18,7 @@ export class OffersModel extends AbstractObservable {
       this.#offers = [];
       this._notify(ServiceLoadUpdateType.ERROR);
     }
-  }
+  };
 
   get offers() {
     return this.#offers;

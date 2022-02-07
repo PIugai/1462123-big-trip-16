@@ -8,7 +8,7 @@ const createHeaderMenuTemplate = (currentMenuItem) => (
   </nav>`
 );
 
-export class HeaderMenuView extends AbstractView {
+export default class HeaderMenuView extends AbstractView {
   #currentMenuItem = null;
 
   constructor(currentMenuItem = HeaderMenuItems.TRIP_ROUTE) {

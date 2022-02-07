@@ -182,7 +182,7 @@ const createEditPointTemplate = (point, destinations, availableOffers) => {
   </li>`;
 };
 
-export class EditPointView extends SmartView {
+export default class EditPointView extends SmartView {
   #dateFromElement = null;
   #dateToElement = null;
   #priceElement = null;

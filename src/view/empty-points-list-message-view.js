@@ -3,7 +3,7 @@ import { AbstractView } from './abstract-view.js';
 const createEmptyPointsListMessageTemplate = (message) =>
   `<p class="trip-events__msg">${message}</p>`;
 
-export class EmptyPointsListMessageView extends AbstractView {
+export default class EmptyPointsListMessageView extends AbstractView {
   #message = null;
 
   constructor(message) {

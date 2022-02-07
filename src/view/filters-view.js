@@ -28,7 +28,7 @@ const createFiltersTemplate = (currentFilterType, filteredPointsCountInfo) => (
   </form>`
 );
 
-export class FiltersView extends AbstractView {
+export default class FiltersView extends AbstractView {
   #currentFilterType = null;
   #filteredPointsCountInfo = null;
 

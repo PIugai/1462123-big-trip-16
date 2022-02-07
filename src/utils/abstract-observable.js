@@ -1,4 +1,4 @@
-export class AbstractObservable {
+export default class AbstractObservable {
   #observers = new Set();
 
   addObserver(observer) {
