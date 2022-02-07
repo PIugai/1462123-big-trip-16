@@ -35,7 +35,7 @@ const tripInfoContainerElement = headerElement.querySelector('.trip-main');
 const mainElement = document.querySelector('.page-main');
 const bodyContainerElement = mainElement.querySelector('.page-body__container');
 const eventsContainerElement = mainElement.querySelector('.trip-events');
-const eventAddButtonElement = document.querySelector(
+const addButtonElement = document.querySelector(
   '.trip-main__event-add-btn',
 );
 
@@ -126,13 +126,13 @@ const showTripRouteTab = () => {
   handleHeaderMenuClick(HeaderMenuType.TRIP_ROUTE);
 };
 
-const addPointClickHandler = (evt) => {
+const handleAddPointClick = (evt) => {
   evt.preventDefault();
   showTripRouteTab();
   tripRoutePresenter.addPoint(evt.target);
 };
 
-eventAddButtonElement.addEventListener('click', addPointClickHandler);
+addButtonElement.addEventListener('click', handleAddPointClick);
 
 const loadingMessageComponent = new LoadingMessageView();
 renderElement(eventsContainerElement, loadingMessageComponent);
