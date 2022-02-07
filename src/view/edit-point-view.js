@@ -64,7 +64,7 @@ const createOffersListTemplate = (pointId, type, pointOffers, availableOffers, i
 };
 
 const createOffersTemplate = (pointId, type, offers, availableOffers, isDisabled) => {
-  if (!getOffersByType(type, availableOffers)) {
+  if (!getOffersByType(type, availableOffers).length) {
     return '';
   }
 
