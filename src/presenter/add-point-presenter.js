@@ -52,9 +52,7 @@ export default class AddPointPresenter {
     if (!this.#destinations) {
       return BLANK_POINT;
     }
-    const firstDestination = this.#destinations.find(
-      (element, index) => index === 0
-    );
+    const firstDestination = this.#destinations[0];
     return {
       ...BLANK_POINT,
       destination: firstDestination.name,
