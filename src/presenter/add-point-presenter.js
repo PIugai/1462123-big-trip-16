@@ -84,7 +84,7 @@ export default class AddPointPresenter {
       this.#pointEditListItem,
       RenderPosition.AFTERBEGIN
     );
-    document.addEventListener('keydown', this.#onEscapeKeyDownHandler);
+    document.addEventListener('keydown', this.#escapeKeyDownHandler);
   };
 
   destroy = () => {
@@ -94,11 +94,11 @@ export default class AddPointPresenter {
 
     removeElement(this.#pointEditListItem);
     this.#pointEditListItem = null;
-    document.removeEventListener('keydown', this.#onEscapeKeyDownHandler);
+    document.removeEventListener('keydown', this.#escapeKeyDownHandler);
     this.#onDestroyHandler();
   };
 
-  #onEscapeKeyDownHandler = (evt) => {
+  #escapeKeyDownHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       this.destroy();
