@@ -11,22 +11,22 @@ export const getDuration = (dateFrom, dateTo) =>
 
 export const getFormattedDuration = (diffInMilliseconds) => {
   const datesDiffDuration = dayjs.duration(diffInMilliseconds);
-  const formattedDiff = [];
+  const formattedDiffs = [];
   if (datesDiffDuration.days() > 0) {
-    formattedDiff.push(`${formatNumberInTwoDigits(datesDiffDuration.days())}D`);
-    formattedDiff.push(
+    formattedDiffs.push(`${formatNumberInTwoDigits(datesDiffDuration.days())}D`);
+    formattedDiffs.push(
       `${formatNumberInTwoDigits(datesDiffDuration.hours())}H`,
     );
   } else if (datesDiffDuration.hours() > 0) {
-    formattedDiff.push(
+    formattedDiffs.push(
       `${formatNumberInTwoDigits(datesDiffDuration.hours())}H`,
     );
   }
-  formattedDiff.push(
+  formattedDiffs.push(
     `${formatNumberInTwoDigits(datesDiffDuration.minutes())}M`,
   );
 
-  return formattedDiff.join(' ');
+  return formattedDiffs.join(' ');
 };
 
 export const getFormattedDatesDiff = (dateFrom, dateTo) =>
